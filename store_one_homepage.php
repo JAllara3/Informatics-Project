@@ -15,7 +15,14 @@
     </head>
     
     <body>
-
+<style>		
+.center {
+    margin: auto;
+    width: 40%;
+    border: 3px solid #DAF7A6;
+    padding: 10px;
+}
+</style>
 
 <!-- Menu bar -->
 <nav class="navbar navbar-default">
@@ -24,20 +31,19 @@
         <li class="active"><a href="store_one_homepage.php">Home</a></li>
         <li><a href="store_one_shopping.php">My Cart</a></li>
         <li><a href="store_one_shopping.php">My Order</a></li>
-        <li><a href="logout.php">log out</a></li>
+        <li><a href="logout.php">Log out</a></li>
      </ul>
   </div>
 </nav>
         
 <!-- Title -->
 <div class="row">
-    <div class="col-xs-12 center">
+    <div class="col-xs-12">
         <h1>Welcome to fast shop!</h1>        
     </div>
 </div>
 
 <button type="submit" class="btn btn-default pull-right" name="submit">Add to Cart</button>
-
 <?php
 
 	include_once('dbutils.php');
@@ -45,32 +51,6 @@
 
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
-    // set up a query to get information on the carss from the database
-    $query_2 = 'SELECT name FROM products WHERE products.storesid = 1;';
-    
-    // run the query
-    $result = queryDB($query_2, $db);
-	
-	if ($result) {
-		$numberofrows = nTuples($result);
-		$centerMenu = "\t<div class='.col-xs-6 .col-md-4'>\n";
-			$centerMenu .= "\t<div class='.col-xs-6 .col-md-4'>\n";
-		
-		if ($numberofrows > 0) {
-			for($i=0; $i < $numberofrows; $i++) {
-				$row = nextTuple($result);
-				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
-				
-			}
-			$centerMenu .= "\t</div>\n";
-			echo ($centerMenu);
-		}
-		$centerMenu .= "\t</div>\n";
-	}
-	
-?>
-
-<?php
     // set up a query to get information on the carss from the database
     $query = 'SELECT name FROM categories WHERE categories.storesid = 1;';
     
@@ -95,5 +75,35 @@
 	}
 	
 ?>
+
+<?php
+
+    // set up a query to get information on the carss from the database
+    $query_2 = 'SELECT name FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
+    
+    // run the query
+    $result = queryDB($query_2, $db);
+	
+	if ($result) {
+		$numberofrows = nTuples($result);
+		$centerMenu = "\t<div class='.col-xs-6 .col-md-4'>\n";
+		
+		if ($numberofrows > 0) {
+			for($i=0; $i < $numberofrows; $i++) {
+				$centerMenu .= "\t<div class='row'>\n";
+				$centerMenu .= "\t<div class='center''>\n";
+				$row = nextTuple($result);
+				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
+				$centerMenu .= "\t</div>\n";
+			}
+			$centerMenu .= "\t</div>\n";
+			echo ($centerMenu);
+		}
+		$centerMenu .= "\t</div>\n";
+	}
+	
+?>
+
+
     </body>
 </html>
