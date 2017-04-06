@@ -18,8 +18,7 @@
 <style>		
 .center {
     margin: auto;
-    width: 40%;
-    border: 3px solid #DAF7A6;
+	width: 80%;
     padding: 10px;
 }
 </style>
@@ -79,7 +78,7 @@
 <?php
 
     // set up a query to get information on the carss from the database
-    $query_2 = 'SELECT name FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
+    $query_2 = 'SELECT name, available FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
     
     // run the query
     $result = queryDB($query_2, $db);
@@ -91,10 +90,14 @@
 		if ($numberofrows > 0) {
 			for($i=0; $i < $numberofrows; $i++) {
 				$centerMenu .= "\t<div class='row'>\n";
-				$centerMenu .= "\t<div class='center''>\n";
+				$centerMenu .= "\t<div class='center'>\n";
 				$row = nextTuple($result);
 				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
 				$centerMenu .= "\t</div>\n";
+				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+				$centerMenu .= "\t<label class='radio-inline'>\n";
+					$centerMenu .= "\t<input type='radio'>\n";
+				$centerMenu .= "\t</label>\n";
 			}
 			$centerMenu .= "\t</div>\n";
 			echo ($centerMenu);
