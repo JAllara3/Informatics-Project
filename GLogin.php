@@ -20,9 +20,34 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     
-    <?php $pagetitle = 'Grocer Login Page';
-    include_once("header.php");
-    ?>
+        <style>		
+.center {
+    margin: auto;
+    width: 40%;
+    border: 3px solid #DAF7A6;
+    padding: 10px;
+    }
+    </style>
+        
+        <!-- Menu bar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="welcome.php">Home</a></li>
+                    <li><a href="store_one_cart.php">Orders to Fill</a></li>
+                    <li><a href ="CLogin.php">Customer Login</a></li>
+                    <li><a href ="GLogin.php">Manager Login</a></li>
+                    <li><a href="logout.php">log out</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+    <!-- Title -->
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 align = center>Welcome to Fast Shop!</h1>
+        </div>
+    </div>
     
     <body>
         <div class="container login">

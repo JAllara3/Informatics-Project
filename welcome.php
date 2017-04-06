@@ -26,19 +26,31 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="store_one_homepage.php">Home</a></li>
-                <li><a href="store_one_cart.php">My Cart</a></li>
-                <li><a href="store_one_order.php">My Order</a></li>
+                <li class="active"><a href="welcome.php">Home</a></li>
+                <li><a href="Categories.php">Categories</a></li>
+                <li><a href ="CLogin.php">Customer Login</a></li>
+                <li><a href ="GLogin.php">Manager Login</a></li>
                 <li><a href="logout.php">log out</a></li>
             </ul>
         </div>
     </nav>
     
-    <h2>Welcome Grocer Manager</h2>
+    <!-- Title -->
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Welcome to Fast Shop!</h1>
+            <br>
+            <h3>Manage your store here</h3>
+        </div>
+    </div>
     
-    
+    <div class="btn-group btn-group-justified">
+        <a href="Categories.php" class="btn btn-primary">Categories</a>
+        <a href="Items.php" class="btn btn-primary">Items</a>
+        <a href="PlacedOrders.php" class="btn btn-primary">Placed Orders</a>
+        <a href="Delivered.php" class = "btn btn-primary">Deliverd Orders</a>
+    </div>
     
     </body>
-
 
 </html>
