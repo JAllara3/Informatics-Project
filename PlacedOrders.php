@@ -36,22 +36,8 @@
         </div>
     </nav>
     
-    <!-- Title -->
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>Welcome to Fast Shop!</h1>
-            <br>
-            <h3>Manage your store here</h3>
-        </div>
-    </div>
     
-    <div class="btn-group btn-group-justified">
-        <a href="Categories.php" class="btn btn-primary">Categories</a>
-        <a href="Items.php" class="btn btn-primary">Items</a>
-        <a href="PlacedOrders.php" class="btn btn-primary">Placed Orders</a>
-        <a href="Delivered.php" class = "btn btn-primary">Deliverd Orders</a>
-    </div>
     
-    </body>
-
-</html>
+    
+    
+    

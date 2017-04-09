@@ -30,13 +30,14 @@
     </style>
         
         <!-- Menu bar -->
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container-fluid">
+                <a class="navbar-brand"><strong>FastShop</strong></a>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="welcome.php">Home</a></li>
-                    <li><a href="store_one_cart.php">Orders to Fill</a></li>
+                    <li><a href="welcome.php">Home</a></li>
+                    <li><a href="Categories.php">Categories</a></li>
                     <li><a href ="CLogin.php">Customer Login</a></li>
-                    <li><a href ="GLogin.php">Manager Login</a></li>
+                    <li class="active"><a href ="GLogin.php">Manager Login</a></li>
                     <li><a href="logout.php">log out</a></li>
                 </ul>
             </div>
@@ -66,13 +67,14 @@
     if (isset($_POST) && !empty($_POST)) {
         session_start();
         //connecting to the database
-        include("config.php");
+        include_once("config.php");
+        include_once('dbutils.php');
 
         //Storing username in $username variable.
-        $username = mysql_real_escape_string(stripslashes($_POST['username']));
+        $username = ($_POST['username']));
 
         //Storing password in $password variable.
-        $password = mysql_real_escape_string(stripslashes(md5($_POST['password'])));
+        $password = ($_POST['password'])));
 
 
         $match = "SELECT id FROM $table WHERE username = '" . $username . "' and password'" . $password . "';";
@@ -92,7 +94,7 @@
         } else {
 
             $_SESSION['user'] = $_POST["username"];
-            header("location: welcome.html"); // Page to redirect user after login.
+            header("location: welcome.html");
         }
-    } //else{}
+    }
 ?>

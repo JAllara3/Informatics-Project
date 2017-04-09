@@ -30,12 +30,13 @@
     </style>
     
     <!-- Menu bar -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse">
         <div class="container-fluid">
+            <a class="navbar-brand"><strong>FastShop</strong></a>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="welcome.php">Home</a></li>
+                <li><a href="welcome.php">Home</a></li>
                 <li><a href="Categories.php">Categories</a></li>
-                <li><a href ="CLogin.php">Customer Login</a></li>
+                <li class="active"><a href ="CLogin.php">Customer Login</a></li>
                 <li><a href ="GLogin.php">Manager Login</a></li>
                 <li><a href="logout.php">log out</a></li>
             </ul>
@@ -64,6 +65,15 @@
 
 
 <?php
+
+//$_SESSION['email'] = ......,
+//if (isset($_SESSION['email'])){
+//  echo "Logged in"
+//}else{
+//    echo
+//}
+
+
     if (isset($_POST) && !empty($_POST)) {
         session_start();
         //connecting to the database
