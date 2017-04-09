@@ -54,7 +54,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT name FROM categories WHERE categories.storesid = 1;';
+    $query = 'SELECT products.name as name FROM products, carts WHERE carts.storesid = 1;';
     
     // run the query
     $result = queryDB($query, $db);

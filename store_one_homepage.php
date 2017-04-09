@@ -14,7 +14,7 @@
         <title>fast shop</title>
     </head>
     
-    <body>
+    <body background="1.png">
 <style>		
 .center {
     margin: auto;
@@ -78,7 +78,7 @@
 <?php
 
     // set up a query to get information on the carss from the database
-    $query_2 = 'SELECT name, available FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
+    $query_2 = 'SELECT name, available, prices FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
     
     // run the query
     $result = queryDB($query_2, $db);
@@ -95,6 +95,7 @@
 				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
 				$centerMenu .= "\t</div>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
 				$centerMenu .= "\t<label class='radio-inline'>\n";
 					$centerMenu .= "\t<input type='radio'>\n";
 				$centerMenu .= "\t</label>\n";
