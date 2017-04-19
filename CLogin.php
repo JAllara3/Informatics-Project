@@ -62,7 +62,7 @@
                 <h2 class="form-signin-heading">Customer Login</h2>
                 <input type="text" name="username" size="20" placeholder="Username">
                 <input type="password" name="password" size="20" placeholder="Password"></br>
-                <input type="submit" value="Log In" class="btn btn-large btn-primary">
+                <a href = "store_one_homepage.php" class = "btn btn-primary btn-md">Login</a>
                 <a href="signup.php">Sign Up</a>
             </form>
         </div>
@@ -72,47 +72,9 @@
 
 
 <?php
-
 //$_SESSION['email'] = ......,
 //if (isset($_SESSION['email'])){
 //  echo "Logged in"
 //}else{
 //    echo
 //}
-
-
-    if (isset($_POST) && !empty($_POST)) {
-        session_start();
-        //connecting to the database
-        include("config.php");
-        include ("dbutils.php");
-
-        
-        //Storing username in $username variable.
-        $username = ($_POST['username'];
-
-        //Storing password in $password variable.
-        $password = ($_POST['password']);
-
-
-        $match = "SELECT id FROM $table WHERE username = '" . $username . "' and password'" . $password . "';";
-
-        $qry = mysql_query($match);
-
-        $num_rows = mysql_num_rows($qry);
-
-        if ($num_rows <= 0) {
-
-            echo "Sorry, there is no username $username with the specified password.";
-
-            echo "Try again";
-
-            exit;
-
-        } else {
-
-            $_SESSION['user'] = $_POST["username"];
-            header("location: welcome.php"); // Page to redirect user after login.
-        }
-    } //else{}
-?>

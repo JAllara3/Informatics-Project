@@ -1,21 +1,34 @@
+<!DOCTYPE html>
 <html>
     <head>
-<!-- Bootstrap links -->
+        <title>Manager Login</title>
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
-        <title>fast shop</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     
-    <body background="1.png">
-
+    <body background = "1.png">
+        
+<?php
+?>
 
 <!-- Menu bar -->
 <nav class="navbar navbar-default">
@@ -23,11 +36,20 @@
     <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="store_one_homepage.php">Home</a></li>
         <li><a href="store_one_shopping.php">My Cart</a></li>
-        <li><a href="store_one_shopping.php">My Order</a></li>
-        <li><a href="logout.php">Log out</a></li>
+        <li><a href="pay.php">My Order</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">User Options
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href ="CLogin.php">Customer Login</a></li>
+                <li><a href ="GLogin.php">Manager Login</a></li>
+                <li><a href="GLogin.php">Log Out</a></li>
+            </ul>
+        </li>
      </ul>
   </div>
 </nav>
+
         
 <!-- Title -->
 <div class="row">
@@ -42,10 +64,8 @@
     <div class="col-xs-3">
 		<p>Categories:</p>
 <?php
-
 	include_once('dbutils.php');
 	include_once('config.php');
-
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
@@ -75,7 +95,6 @@
     </div>
 	<div class="col-xs-9">
 <?php
-
     // set up a query to get information on the carss from the database
     $query_2 = 'SELECT name, available, prices FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
     
