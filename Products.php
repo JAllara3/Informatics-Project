@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Placed Orders</title>
+        <title>Products</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
@@ -35,8 +35,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php">Home</a></li>
                 <li><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li  class="active"><a href="PlacedOrders.php">Placed Orders</a></li>
+                <li class ="active"><a href="Products.php">Products</a></li>
+                <li><a href="PlacedOrders.php">Placed Orders</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
@@ -49,3 +49,21 @@
             </ul>
         </div>
     </nav>
+    
+    <body>
+        <?php
+        include_once('config.php');
+        include_once('dbutils.php');
+        
+        
+        
+        if (isset($_POST['submit'])){
+            $name = $_POST['name'];
+            $available = $_POST['available'];
+            $categoriesid = $_POST['categoryid'];
+            $categoriesname = $_POST['categoryname'];
+        }
+        
+        
+        ?>
+    </body>
