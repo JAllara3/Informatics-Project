@@ -32,29 +32,16 @@
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
-            </div>
+            <a class="navbar-brand"><strong>FastShop</strong></a>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php">Home</a></li>
                 <li><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                        <li class = "active"><a href = "signup.php">SignUp</a></li>
-                    </ul>
-                </li>
+                <li><a href ="CLogin.php">Customer Login</a></li>
+                <li><a href ="GLogin.php">Manager Login</a></li>
+                <li><a href="logout.php">log out</a></li>
             </ul>
         </div>
     </nav>
-    
-    
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">

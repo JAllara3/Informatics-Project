@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Checkout</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -16,6 +17,11 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     
@@ -28,10 +34,18 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="store_one_homepage.php">Home</a></li>
-        <li><a href="store_one_cart.php">My Cart</a></li>
-        <li><a href="store_one_order.php">My Order</a></li>
-        <li><a href="logout.php">log out</a></li>
+        <li><a href="store_one_homepage.php">Home</a></li>
+        <li><a href="store_one_shopping.php">My Cart</a></li>
+        <li class="active"><a href="pay.php">My Order</a></li>
+         <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href ="CLogin.php">Customer Login</a></li>
+                    <li><a href ="GLogin.php">Manager Login</a></li>
+                    <li><a href="GLogin.php">Log Out</a></li>
+                </ul>
+        </li>
      </ul>
   </div>
 </nav>
