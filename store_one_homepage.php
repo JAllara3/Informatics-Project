@@ -35,6 +35,13 @@
         <h1>Welcome to fast shop!</h1>        
     </div>
 </div>
+<?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+	if (isset($_POST['submit'])) {
+	}
+?>
 
 <button type="submit" class="btn btn-default pull-right" name="submit">Add to Cart</button>
 
@@ -63,7 +70,7 @@
 			
 			for($i=0; $i < $numberofrows; $i++) {
 				$row = nextTuple($result);
-				$leftSideMenu .= "\t\t\t<tr><td><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></td></tr>\n";
+				$leftSideMenu .= "\t\t\t<tr><td><a href='store_one_homepage.php?page=" . $row['id'] . "'>". $row['name'] ."</a></td></tr>\n";
 			}
 			$leftSideMenu .= "\t\t</table>\n";
 			$leftSideMenu .= "\t</div>\n";	
@@ -77,7 +84,12 @@
 <?php
 
     // set up a query to get information on the carss from the database
-    $query_2 = 'SELECT name, available, prices FROM products WHERE products.storesid = 1 AND products.categoriesid = 1;';
+	if (isset($_GET['page'])) {
+		$categoriesid = $_GET['page'];
+	} else {
+		$categoriesid = 1;
+	}
+    $query_2 = "SELECT name, available, prices, icon FROM products WHERE products.storesid = 1 AND products.categoriesid = $categoriesid;";
     
     // run the query
     $result = queryDB($query_2, $db);
@@ -91,12 +103,12 @@
 				$centerMenu = "\t<div class='row'>\n";
 				$centerMenu .= "\t<div class='col-xs-3'>\n";
 				$row = nextTuple($result);
+				$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<label class='radio-inline'>\n";
-				$centerMenu .= "\t<input type='radio'>\n";
-				$centerMenu .= "\t</label>\n";
+				$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
@@ -105,24 +117,24 @@
 					$centerMenu .= "\t<div class='row'>\n";
 					$centerMenu .= "\t<div class='col-xs-3'>\n";
 					$row = nextTuple($result);
+					$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+					$centerMenu .= "\t<br><br>\n";
 					$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-					$centerMenu .= "\t<label class='radio-inline'>\n";
-					$centerMenu .= "\t<input type='radio'>\n";
-					$centerMenu .= "\t</label>\n";
+					$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
 					$centerMenu .= "\t<br><br>\n";
 					$centerMenu .= "\t</div>\n";
 					echo ($centerMenu);
 				} else {
 				$centerMenu = "\t<div class='col-xs-3'>\n";
 				$row = nextTuple($result);
+				$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<label class='radio-inline'>\n";
-				$centerMenu .= "\t<input type='radio'>\n";
-				$centerMenu .= "\t</label>\n";
+				$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
