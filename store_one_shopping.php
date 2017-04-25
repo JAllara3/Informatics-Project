@@ -43,32 +43,39 @@
 <table class="table table-hover">
     <!-- headers for table -->
     <thead>
-        <th>Order ID: </th>
-        <th>Date </th>
-        <th>Status </th>
+        <th>Product</th>
+        <th>Amount</th>
+        <th>Total Price</th>
+        <th>Status</th>
     </thead>
 
-
 <?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
     // connect to the database
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT products.name as name FROM products, carts WHERE carts.storesid = 1;';
-    
+    $query = 'SELECT name, amount, prices, status FROM carts WHERE carts.orderid = 1;';
+
     // run the query
     $result = queryDB($query, $db);
     
     while($row = nextTuple($result)) {
         echo "\n <tr>";
         echo "<td>" . $row['name'] . "</td>";
-        echo "<td>" . $row[$checkbox]. "</td>";
+        echo "<td>" . $row['amount']. "</td>";
+        echo "<td>" . $row['prices']. "</td>";
+        echo "<td>" . $row['status']. "</td>";
         echo "</tr> \n";
     }
 ?>
 
-
-<button type="submit" class="btn btn-default pull-right" name="submit">Add to Cart</button>
+</table>
+    </div>
+</div>
 
     </body>
 </html>

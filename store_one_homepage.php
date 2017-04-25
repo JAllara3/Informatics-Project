@@ -35,15 +35,39 @@
         <h1>Welcome to fast shop!</h1>        
     </div>
 </div>
-<?php
 
-	include_once('dbutils.php');
-	include_once('config.php');
-	if (isset($_POST['submit'])) {
-	}
+<?php if (isset($_POST['submit'])) {
+		$amount = $_POST['amount'];
+		$name = $_POST['name'];
+		$max = $_POST['available'];
+		$price = $_POST['prices'];
+		$totalprice = $amount*$price; 
+		
+	    if (!isset($amount)) {
+        $errorMessage .= "Please enter the amount.\n";
+        $isComplete = false;
+    } else if ($amount > $max || $amount < 1) {
+        $errorMessage .="Please enter a valid amount.\n";
+        $isComplete = false;
+    }
+	    if($isComplete) {
+        //
+        // first enter record into pizza table
+        //
+        // put together SQL statement to insert new record
+        $query = "INSERT INTO carts(cartsid, productsid, storesid, name, amount, prices, status) VALUES (1, $productid, 1, '$name' ,'$amount', '$totalprice', 'not paid');";
+        
+        // connect to the database
+        $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+        
+        // run the insert statement
+        $result = queryDB($query, $db);
+							}
+		$success = "Successfully added to cart: " . $name;
+		
+		unset($amount, $totalprice, $price, $name, $max);
+		}
 ?>
-
-<button type="submit" class="btn btn-default pull-right" name="submit">Add to Cart</button>
 
 <div class="row">
     <div class="col-xs-3">
@@ -105,10 +129,14 @@
 				$row = nextTuple($result);
 				$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 				$centerMenu .= "\t<br><br>\n";
-				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
+				$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
+				$centerMenu .= "\t<div class='form-group'>\n";
+					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+					$centerMenu .= "\t<input type='text' class='form-control'>\n";
+				$centerMenu .= "\t</div>\n";
+				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
@@ -119,10 +147,14 @@
 					$row = nextTuple($result);
 					$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 					$centerMenu .= "\t<br><br>\n";
-					$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
+					$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-					$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
+					$centerMenu .= "\t<div class='form-group'>\n";
+						$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+						$centerMenu .= "\t<input type='text' class='form-control'>\n";
+					$centerMenu .= "\t</div>\n";
+					$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 					$centerMenu .= "\t<br><br>\n";
 					$centerMenu .= "\t</div>\n";
 					echo ($centerMenu);
@@ -131,10 +163,14 @@
 				$row = nextTuple($result);
 				$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 				$centerMenu .= "\t<br><br>\n";
-				$centerMenu .= "\t\t\t<tr><a href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</a></tr>\n";
+				$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<p>Amount wanted: <input type='text'><br>\n";
+				$centerMenu .= "\t<div class='form-group'>\n";
+					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+					$centerMenu .= "\t<input type='text' class='form-control'>\n";
+				$centerMenu .= "\t</div>\n";
+				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
