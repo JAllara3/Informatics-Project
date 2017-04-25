@@ -58,7 +58,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT name, amount, prices, status FROM carts WHERE carts.orderid = 1;';
+    $query = 'SELECT name, amount, prices, status FROM orders WHERE orders.orderid = 1;';
 
     // run the query
     $result = queryDB($query, $db);
@@ -70,7 +70,7 @@
         echo "<td>" . $row['prices']. "</td>";
         echo "<td>" . $row['status']. "</td>";
         echo "</tr> \n";
-    }
+	}
 ?>
 
 </table>

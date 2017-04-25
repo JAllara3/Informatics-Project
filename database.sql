@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS stores;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS productorder; 
+DROP TABLE IF EXISTS productorder;
 
 CREATE TABLE stores (
     id int unsigned NOT NULL AUTO_INCREMENT,
@@ -39,9 +39,7 @@ CREATE TABLE productorder (
     id int unsigned NOT NULL AUTO_INCREMENT,
     ordersid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
-    name varchar(128) NOT NULL,
 	amount int unsigned NOT NULL,
-    price int unsigned NOT NULL,
     PRIMARY KEY (id) 
 );
 
@@ -49,6 +47,7 @@ CREATE TABLE productorder (
 -- Add some sample data
 INSERT INTO stores(name) VALUES ("Fast shop 1");
 INSERT INTO stores(name) VALUES ("Fast shop 2");
+INSERT INTO stores(name) VALUES ("Fast shop 3");
 
 INSERT INTO categories(name, storesid) VALUES ("Sales", 1);
 INSERT INTO categories(name, storesid) VALUES ("Bath & Beauty", 1);
@@ -60,6 +59,10 @@ INSERT INTO categories(name, storesid) VALUES ("Vegetables", 1);
 INSERT INTO categories(name, storesid) VALUES ("Sales", 2);
 INSERT INTO categories(name, storesid) VALUES ("Bath", 2);
 INSERT INTO categories(name, storesid) VALUES ("Beauty", 2);
+INSERT INTO categories(name, storesid) VALUES ("Sea food", 2);
+INSERT INTO categories(name, storesid) VALUES ("Veges", 2);
+INSERT INTO categories(name, storesid) VALUES ("New!", 3);
+INSERT INTO categories(name, storesid) VALUES ("Clothes", 3);
 
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Carrots", 1, 1.5, NULL, 6, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Pencil", 2, 3.5, "2.jpg", 1, 1);
@@ -68,12 +71,27 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("A4 papers", 10, 1, NULL, 3, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("A5 papers", 2, 3, NULL, 3, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("A6 papers", 3, 5, NULL, 1, 1);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
 INSERT INTO orders(status) VALUES ("not paid");
 INSERT INTO orders(status) VALUES ("not paid");
 INSERT INTO orders(status) VALUES ("shipping");
 
-INSERT INTO productorder(ordersid, productsid, name, amount, price) VALUES (1, 2, "Pencil", 1, "3.5");
-INSERT INTO productorder(ordersid, productsid, name, amount, price) VALUES (2, 3, "CDs", 3, "66");
-INSERT INTO productorder(ordersid, productsid, name, amount, price) VALUES (3, 5, "A4 papers", 1, "1");
-
+INSERT INTO productorder(ordersid, productsid, amount) VALUES (1, 2, 1);
+INSERT INTO productorder(ordersid, productsid, amount) VALUES (2, 3, 3);
+INSERT INTO productorder(ordersid, productsid, amount) VALUES (3, 5, 1);

@@ -35,26 +35,22 @@
         <h1>Welcome to fast shop!</h1>        
     </div>
 </div>
-
+productorder(ordersid, productsid, amount)
 <?php if (isset($_POST['submit'])) {
 		$amount = $_POST['amount'];
-		$name = $_POST['name'];
-		$max = $_POST['available'];
-		$price = $_POST['prices'];
-		$totalprice = $amount*$price; 
+		$productsid = $_POST['id'];
+		$max = $_POST[''];
 		
-	    if (!isset($amount)) {
+	/*    if (!isset($amount)) {
         $errorMessage .= "Please enter the amount.\n";
         $isComplete = false;
     } else if ($amount > $max || $amount < 1) {
         $errorMessage .="Please enter a valid amount.\n";
         $isComplete = false;
     }
+	*/
 	    if($isComplete) {
-        //
-        // first enter record into pizza table
-        //
-        // put together SQL statement to insert new record
+
         $query = "INSERT INTO carts(cartsid, productsid, storesid, name, amount, prices, status) VALUES (1, $productid, 1, '$name' ,'$amount', '$totalprice', 'not paid');";
         
         // connect to the database
@@ -65,7 +61,7 @@
 							}
 		$success = "Successfully added to cart: " . $name;
 		
-		unset($amount, $totalprice, $price, $name, $max);
+		unset($amount);
 		}
 ?>
 
@@ -113,7 +109,7 @@
 	} else {
 		$categoriesid = 1;
 	}
-    $query_2 = "SELECT name, available, prices, icon FROM products WHERE products.storesid = 1 AND products.categoriesid = $categoriesid;";
+    $query_2 = "SELECT id, name, available, prices, icon FROM products WHERE products.storesid = 1 AND products.categoriesid = $categoriesid;";
     
     // run the query
     $result = queryDB($query_2, $db);
@@ -132,10 +128,11 @@
 				$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<div class='form-group'>\n";
+				$centerMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
 					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
-					$centerMenu .= "\t<input type='text' class='form-control'>\n";
-				$centerMenu .= "\t</div>\n";
+					$centerMenu .= "\t<input type='number' class='form-control' value='1'>\n";
+					$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+				$centerMenu .= "\t</form>\n";
 				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
@@ -150,10 +147,11 @@
 					$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 					$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-					$centerMenu .= "\t<div class='form-group'>\n";
+					$centerMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
 						$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
-						$centerMenu .= "\t<input type='text' class='form-control'>\n";
-					$centerMenu .= "\t</div>\n";
+						$centerMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
+						$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+					$centerMenu .= "\t</form>\n";
 					$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 					$centerMenu .= "\t<br><br>\n";
 					$centerMenu .= "\t</div>\n";
@@ -166,10 +164,11 @@
 				$centerMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-				$centerMenu .= "\t<div class='form-group'>\n";
+				$centerMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
 					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
-					$centerMenu .= "\t<input type='text' class='form-control'>\n";
-				$centerMenu .= "\t</div>\n";
+					$centerMenu .= "\t<input type='number' class='form-control' value='1'>\n";
+					$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+				$centerMenu .= "\t</form>\n";
 				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
