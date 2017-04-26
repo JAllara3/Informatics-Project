@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS stores;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS productorder;
 
@@ -28,16 +29,17 @@ CREATE TABLE products (
     PRIMARY KEY (id)
 );
 
+-- for each order that has been placed, assign it a userid
 CREATE TABLE carts (
-	cartid int unsigned NOT NULL,
-	orderid int unsigned NOT NULL,
-	PRIMARY KEY (cartid)
+    id int unsigned NOT NULL AUTO_INCREMENT,
+	userid int unsigned NOT NULL,
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE productorder (
     id int unsigned NOT NULL AUTO_INCREMENT,
-    cartsid int unsigned NOT NULL,
-	orderid int unsigned NOT NULL,
+    cartid int unsigned NOT NULL,
+	userid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
 	amount int unsigned NOT NULL,
 	status varchar(128) NOT NULL,
@@ -89,10 +91,10 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
-INSERT INTO carts(cartsid, orderid) VALUES (1, 1);
-INSERT INTO carts(cartsid, orderid) VALUES (1, 2);
-INSERT INTO carts(cartsid, orderid) VALUES (2, 1);
+INSERT INTO carts(userid) VALUES (1);
+INSERT INTO carts(userid) VALUES (1);
+INSERT INTO carts(userid) VALUES (2);
 
-INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (1, 2, 1, "not paid");
-INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (2, 3, 3, "not paid");
-INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (3, 5, 1, "shipped");
+INSERT INTO productorder(cartid, userid, productsid, amount, status) VALUES (1, 1, 2, 1, "not paid");
+INSERT INTO productorder(cartid, userid, productsid, amount, status) VALUES (2, 2, 3, 3, "not paid");
+INSERT INTO productorder(cartid, userid, productsid, amount, status) VALUES (1, 3, 5, 1, "shipped");
