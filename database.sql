@@ -1,8 +1,7 @@
--- The collection of favorite cars
 DROP TABLE IF EXISTS stores;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS productorder;
 
 CREATE TABLE stores (
@@ -29,17 +28,19 @@ CREATE TABLE products (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE orders (
-	id int unsigned NOT NULL AUTO_INCREMENT,
-    status varchar(128) NOT NULL,
-	PRIMARY KEY (id)
+CREATE TABLE carts (
+	cartid int unsigned NOT NULL,
+	orderid int unsigned NOT NULL,
+	PRIMARY KEY (cartid)
 );
 
 CREATE TABLE productorder (
     id int unsigned NOT NULL AUTO_INCREMENT,
-    ordersid int unsigned NOT NULL,
+    cartsid int unsigned NOT NULL,
+	orderid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
 	amount int unsigned NOT NULL,
+	status varchar(128) NOT NULL,
     PRIMARY KEY (id) 
 );
 
@@ -88,10 +89,10 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
-INSERT INTO orders(status) VALUES ("not paid");
-INSERT INTO orders(status) VALUES ("not paid");
-INSERT INTO orders(status) VALUES ("shipping");
+INSERT INTO carts(cartsid, orderid) VALUES (1, 1);
+INSERT INTO carts(cartsid, orderid) VALUES (1, 2);
+INSERT INTO carts(cartsid, orderid) VALUES (2, 1);
 
-INSERT INTO productorder(ordersid, productsid, amount) VALUES (1, 2, 1);
-INSERT INTO productorder(ordersid, productsid, amount) VALUES (2, 3, 3);
-INSERT INTO productorder(ordersid, productsid, amount) VALUES (3, 5, 1);
+INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (1, 2, 1, "not paid");
+INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (2, 3, 3, "not paid");
+INSERT INTO productorder(ordersid, productsid, amount, status) VALUES (3, 5, 1, "shipped");
