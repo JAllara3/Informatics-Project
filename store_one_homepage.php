@@ -2,32 +2,57 @@
     <head>
 <!-- Bootstrap links -->
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
-        <title>fast shop</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
+	
+        <title>fast shop</title>
     
     <body background="1.png">
 
 
-<!-- Menu bar -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="store_one_homepage.php">Home</a></li>
-        <li><a href="store_one_shopping.php">My Cart</a></li>
-        <li><a href="store_one_shopping.php">My Order</a></li>
-        <li><a href="logout.php">Log out</a></li>
-     </ul>
-  </div>
-</nav>
+    <!-- Menu bar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class = "navbar-header">
+            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li><a href="store_one_shopping.php">My Order</a></li>
+                <li><a href="logout.php">Log out</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href ="CLogin.php">Customer Login</a></li>
+                        <li><a href ="GLogin.php">Manager Login</a></li>
+                        <li><a href="GLogin.php">Log Out</a></li>
+                        <li><a href = "Csignup.php">SignUp</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
         
 <!-- Title -->
 <div class="row">
@@ -35,35 +60,53 @@
         <h1>Welcome to fast shop!</h1>        
     </div>
 </div>
-productorder(ordersid, productsid, amount)
-<?php if (isset($_POST['submit'])) {
+
+<?php
+	
+	if (isset($_POST['submit'])) {
 		$amount = $_POST['amount'];
 		$productsid = $_POST['id'];
-		$max = $_POST[''];
-		
-	/*    if (!isset($amount)) {
-        $errorMessage .= "Please enter the amount.\n";
-        $isComplete = false;
-    } else if ($amount > $max || $amount < 1) {
-        $errorMessage .="Please enter a valid amount.\n";
-        $isComplete = false;
-    }
-	*/
-	    if($isComplete) {
 
-        $query = "INSERT INTO carts(cartsid, productsid, storesid, name, amount, prices, status) VALUES (1, $productid, 1, '$name' ,'$amount', '$totalprice', 'not paid');";
-        
-        // connect to the database
-        $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-        
-        // run the insert statement
-        $result = queryDB($query, $db);
-							}
+		//session_start();
+		//echo $_SESSION['addToCart'];
+		
+		//if($isComplete) {
+			//if the user have never add anything to the cart
+		//	if ($_SESSION['addToCart']==null){
+		//	
+	      //      $query_4 = "SELECT max(userid) as NewUser from carts;";
+			//	
+			//	$result_4 = queryDB($query_4,$db);
+			//	
+			//	$n = NewUser + 1;
+			//	
+			//	$m = nTuple($result_4);
+				
+			//	$o = $m + 1;
+			//	
+			//	$query_5 = "INSERT INTO carts(userid) VALUES ($n);";
+				
+	          //  $result_5 = queryDB($query_5,$db);
+				
+		//		$_SESSION['addToCart'] = $result_5;
+	      //  }
+	        //else{
+			//	$cartid = $_GET[$o];
+			//	$userid = $_GET[$m];
+
+//	            $query = "INSERT INTO productorder(cartid, userid, productsid, amount, status) VALUES ($cartid, $userid, $productid,'$amount', 'not paid');";
+
+//				$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+				
+//	            $result=queryDB($query,$db);
+//	        }
+							
 		$success = "Successfully added to cart: " . $name;
 		
-		unset($amount);
+		unset($amount, $productsid);
 		}
 ?>
+
 
 <div class="row">
     <div class="col-xs-3">

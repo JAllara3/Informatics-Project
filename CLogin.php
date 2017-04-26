@@ -33,22 +33,24 @@
             <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
-                <li><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
+                <li class="active"><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li><a href="store_one_shopping.php">My Order</a></li>
+                <li><a href="logout.php">Log out</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li class="active"><a href ="CLogin.php">Customer Login</a></li>
+                        <li class = "active"><a href ="CLogin.php">Customer Login</a></li>
                         <li><a href ="GLogin.php">Manager Login</a></li>
                         <li><a href="GLogin.php">Log Out</a></li>
+                        <li><a href = "Csignup.php">SignUp</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
+    
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
@@ -56,63 +58,79 @@
         </div>
     </div>
 
-    <body>
-        <div class="container login">
-            <form action="CLogin.php" method="post" class="form-signin" id = "login_form" >
+<?php
+
+
+	include_once('dbutils.php');
+	include_once('config.php');
+	
+	if (isset($_POST['submit'])) {
+
+	    $email = $_POST['username'];
+		$password = $_POST['password'];
+	    
+	    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);    
+	    
+	    $isComplete = true;
+	    $errorMessage = "";
+	    
+	    if (!$email) {
+	        $errorMessage .= " Please enter an email.";
+	        $isComplete = false;
+	    } else {
+	        $email = makeStringSafe($db, $email);
+	    }
+	    if (!$password) {
+	        $errorMessage .= " Please enter a password.";
+	        $isComplete = false;
+	    }	    
+		
+	    if (!$isComplete) {
+	        punt($errorMessage);
+	    }
+	    
+	    // get the hashed password from the user with the email that got entered
+	    $query = "SELECT hashedpass FROM users WHERE email='" . $email . "';";
+		$result = queryDB($query, $db);
+		if (nTuples($result) > 0) {
+		    // there is an account that corresponds to the email that the user entered
+			// get the hashed password for that account
+			$row = nextTuple($result);
+			$hashedpass = $row['hashedpass'];
+			
+				// compare entered password to the password on the database
+			if ($hashedpass == crypt($password, $hashedpass)) {
+				// password was entered correctly
+				
+				// start a session
+			if (session_start()) {
+					$_SESSION['email'] = $email;
+					header('Location: store_one_homepage.php');
+					exit;
+				} else {
+					// if we can't start a session
+					punt("Unable to start session when loggin in.");
+				}
+			} else {
+				// wrong password
+				punt("Wrong password. <a href='CLogin.php'>Try again</a>.");
+			}
+	    } else {
+			// email entered is not in the users table
+			punt("This email is not in our system. <a href='CLogin.php'>Try again</a>.");
+		}
+	}
+?>
+	
+	<body>
+	    <div class="container login">
+			<form action="CLogin.php" method="post" class="form-signin" id = "login_form" >
                 <h2 class="form-signin-heading">Customer Login</h2>
                 <input type="text" name="username" size="20" placeholder="Username">
                 <input type="password" name="password" size="20" placeholder="Password"></br>
-                <input type="submit" value="Log In" class="btn btn-large btn-primary">
+                <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
                 <a href="signup.php">Sign Up</a>
             </form>
         </div>
     </body>
 </html>
-
-
-
-<?php
-
-//$_SESSION['email'] = ......,
-//if (isset($_SESSION['email'])){
-//  echo "Logged in"
-//}else{
-//    echo
-//}
-
-
-    if (isset($_POST) && !empty($_POST)) {
-        session_start();
-        //connecting to the database
-        include("config.php");
-        include ("dbutils.php");
-
-        
-        //Storing username in $username variable.
-        $username = ($_POST['username'];
-
-        //Storing password in $password variable.
-        $password = ($_POST['password']);
-
-
-        $match = "SELECT id FROM $table WHERE username = '" . $username . "' and password'" . $password . "';";
-
-        $qry = mysql_query($match);
-
-        $num_rows = mysql_num_rows($qry);
-
-        if ($num_rows <= 0) {
-
-            echo "Sorry, there is no username $username with the specified password.";
-
-            echo "Try again";
-
-            exit;
-
-        } else {
-
-            $_SESSION['user'] = $_POST["username"];
-            header("location: welcome.php"); // Page to redirect user after login.
-        }
-    } //else{}
-?>
