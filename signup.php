@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
     <head>
@@ -28,18 +27,18 @@
     padding: 10px;
     }
     </style>
-    
-    <!-- Menu bar -->
+	
+	<!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
             <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
-                <li><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
+                <li class="active"><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li><a href="store_one_shopping.php">My Order</a></li>
+                <li><a href="logout.php">Log out</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
@@ -47,12 +46,104 @@
                         <li><a href ="CLogin.php">Customer Login</a></li>
                         <li><a href ="GLogin.php">Manager Login</a></li>
                         <li><a href="GLogin.php">Log Out</a></li>
-                        <li class = "active"><a href = "signup.php">SignUp</a></li>
+                        <li class = "active"><a href = "Csignup.php">SignUp</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
+    
+<?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+    	$password = $_POST['password'];
+    	$cpassword = $_POST['cpassword'];
+    
+    
+   // connect to the database
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);    
+    
+    // check for required fields
+    $isComplete = true;
+    $errorMessage = "";
+
+    if (!$email) {
+        $errorMessage .= " You haven't enter email!";
+        $isComplete = false;
+    } else {
+        $email = makeStringSafe($db, $email);
+    }
+    
+    if (!$password) {
+        $errorMessage .= " You haven't enter your password!";
+        $isComplete = false;
+    }
+	
+	if (!$cpassword) {
+        $errorMessage .= " You haven't enter your password! again.";
+        $isComplete = false;
+    }
+	
+	if ($password != $cpassword) {
+		$errorMessage .= " Your passwords do not match.";
+		$isComplete = false;
+	}
+	    
+	
+    if ($isComplete) {
+    
+		$query = "SELECT hashedpass FROM users WHERE email='" . $email . "';";
+		$result = queryDB($query, $db);
+		if (nTuples($result) == 0) {
+
+			$hashedpass = crypt($password, getSalt());
+			
+			$new = "INSERT INTO users(email, hashedpass) VALUES ('" . $email . "', '" . $hashedpass . "');";
+		
+			// run the insert statement
+			$result = queryDB($new, $db);
+		
+			
+		} else {
+			$isComplete = false;
+			$errorMessage = "Sorry. We already have a user account under email " . $email;
+		}
+	}
+}
+?>
+        
+<!-- Show successfully entered email -->
+<div class="row">
+    <div class="col-xs-12">
+<?php
+    if (isset($isComplete) && $isComplete) {
+        echo '<div class = "alert alert-success" role="alert">';
+        echo ("success in entering " . "$email");
+        unset($username, $email, $password, $cpassword);
+        echo '</div>';
+    }
+?>            	
+		
+<!-- Showing errors, if any -->
+<div class="row">
+    <div class="col-xs-12">
+<?php
+    if (isset($isComplete) && !$isComplete) {
+        echo '<div class="alert alert-danger" role="alert">';
+        echo ($errorMessage);
+        echo '</div>';
+    }
+?>
+    
+    </div>
+</div>
+
+    
     
     
     <!-- Title -->
@@ -63,15 +154,15 @@
     </div>
         <body>
             <div class="container login">
-                <form action="signup.php" method="post" class="form-signin" id = "login_form" >
+                <form action="Csignup.php" method="post" class="form-signin" id = "login_form" >
                     <h2 class="form-signin-heading">Customer Signup</h2>
                     <input type="text" name="username" size="20" placeholder="Username"></br></br>
                     <input type="email" name ="email" size="20" placeholder="Email"></br></br>
                     <input type="password" name="password" size="20" placeholder="Password"></br></br>
-                    <input type="password" name="password" size="20" placeholder="confirm password"></br></br>
-                    <input type="button" value="Sign Up" class ="btn btn-large btn-primary" onclick="window.location = 'CLogin.php';">
-                    <a href="CLogin.php">back to login</a>
+                    <input type="password" name="cpassword" size="20" placeholder="confirm password"></br></br>
+                    <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
                 </form>
+                    <a href="CLogin.php">back to login</a>
             </div>
-        </body>
-    </html>
+    </body>
+</html>
