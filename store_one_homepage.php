@@ -62,49 +62,61 @@
 </div>
 
 <?php
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 	
 	if (isset($_POST['submit'])) {
 		$amount = $_POST['amount'];
 		$productsid = $_POST['id'];
-
-		//session_start();
-		//echo $_SESSION['addToCart'];
 		
-		//if($isComplete) {
-			//if the user have never add anything to the cart
-		//	if ($_SESSION['addToCart']==null){
-		//	
-	      //      $query_4 = "SELECT max(userid) as NewUser from carts;";
-			//	
-			//	$result_4 = queryDB($query_4,$db);
-			//	
-			//	$n = NewUser + 1;
-			//	
-			//	$m = nTuple($result_4);
-				
-			//	$o = $m + 1;
-			//	
-			//	$query_5 = "INSERT INTO carts(userid) VALUES ($n);";
-				
-	          //  $result_5 = queryDB($query_5,$db);
-				
-		//		$_SESSION['addToCart'] = $result_5;
-	      //  }
-	        //else{
-			//	$cartid = $_GET[$o];
-			//	$userid = $_GET[$m];
+		session_start();
 
-//	            $query = "INSERT INTO productorder(cartid, userid, productsid, amount, status) VALUES ($cartid, $userid, $productid,'$amount', 'not paid');";
+			if(isset($_SESSION['email'])) {
+				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
+				$result_3 = queryDB($query_3,$db);
+				if (nTuples($result_3) > 0) {
+					$row = nextTuple($result_3);
+					$cartid = $row['id'];
+				} else {
+					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['userid'] .", 'cart');";
+					$result_4 = queryDB($query_4,$db);
+					$query_7 = "SELECT max(id) as NEW from carts;";
+					$result_7 = queryDB($query_7,$db);
+					$row = nextTuple($result_7);
+					$lastid = $row['NEW'];
+					$cartid = $lastid;
+				}
+			
+			} else {
 
-//				$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-				
-//	            $result=queryDB($query,$db);
-//	        }
-							
-		$success = "Successfully added to cart: " . $name;
+					// user not logged in
+					if (isset($_SESSION['cartid'])) {
+	
+					// if we have a shopping cart for a guest
+						$cartid = $_SESSION['cartid'];
+					} else {
 		
-		unset($amount, $productsid);
+						$query_5 = "INSERT INTO carts(status) VALUES ('cart');";
+						$result_5 = queryDB($query_5,$db);
+						$query_8 = "SELECT max(id) as NEW from carts;";
+						$result_8 = queryDB($query_8,$db);
+						$row = nextTuple($result_8);
+						$lastid = $row['NEW'];
+						$_SESSION['cartid'] = $lastid;
+					 	$cartid = $_SESSION['cartid'];
+					}	
+				}
+				$query_6 = "INSERT INTO productorder(cartid, productsid, amount) VALUES ($cartid, $productsid, $amount);";
+				//$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+				$result_6 = queryDB($query_6,$db);
+			
+				echo "Successfully added to cart!";
+
+				unset($amount, $productsid);
 		}
+	
 ?>
 
 
@@ -173,10 +185,10 @@
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
 				$centerMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
 					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
-					$centerMenu .= "\t<input type='number' class='form-control' value='1'>\n";
+					$centerMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
 					$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+					$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t</form>\n";
-				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
@@ -194,8 +206,8 @@
 						$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
 						$centerMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
 						$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+						$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 					$centerMenu .= "\t</form>\n";
-					$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 					$centerMenu .= "\t<br><br>\n";
 					$centerMenu .= "\t</div>\n";
 					echo ($centerMenu);
@@ -209,10 +221,10 @@
 				$centerMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
 				$centerMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
 					$centerMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
-					$centerMenu .= "\t<input type='number' class='form-control' value='1'>\n";
+					$centerMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
 					$centerMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+					$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t</form>\n";
-				$centerMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
 				$centerMenu .= "\t<br><br>\n";
 				$centerMenu .= "\t</div>\n";
 				echo ($centerMenu);
