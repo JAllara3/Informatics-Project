@@ -42,7 +42,6 @@ CREATE TABLE productorder (
     cartid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
 	amount int unsigned NOT NULL,
-	status varchar(128) NOT NULL,
     PRIMARY KEY (id) 
 );
 
@@ -91,8 +90,8 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
-INSERT INTO carts(userid, status) VALUES (1, "cart");
-INSERT INTO carts(userid, status) VALUES (1, "cart");
+INSERT INTO carts(userid, status) VALUES (1, "not paid");
+INSERT INTO carts(userid, status) VALUES (1, "not paid");
 INSERT INTO carts(userid, status) VALUES (2, "shipped");
 
 INSERT INTO productorder(cartid, productsid, amount) VALUES (1, 2, 1);
