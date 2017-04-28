@@ -33,7 +33,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "store_one_homepage.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="store_one_homepage.php">Home</a></li>
@@ -46,8 +46,8 @@
                     <ul class="dropdown-menu">
                         <li><a href ="CLogin.php">Customer Login</a></li>
                         <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                        <li><a href = "Csignup.php">SignUp</a></li>
+                        <li><a href="logout.php">Log Out</a></li>
+                        <li><a href = "Csignup.php">Sign Up</a></li>
                     </ul>
                 </li>
             </ul>
@@ -74,13 +74,15 @@
 		session_start();
 
 			if(isset($_SESSION['email'])) {
-				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
+				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['cartid'] ." and status='cart';";
 				$result_3 = queryDB($query_3,$db);
 				if (nTuples($result_3) > 0) {
+					echo "Welcome user: ". $_SESSION['email'] .". ";
 					$row = nextTuple($result_3);
 					$cartid = $row['id'];
 				} else {
-					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['userid'] .", 'cart');";
+					echo "Welcome user: ". $_SESSION['email'] .". ";
+					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['cartid'] .", 'cart');";
 					$result_4 = queryDB($query_4,$db);
 					$query_7 = "SELECT max(id) as NEW from carts;";
 					$result_7 = queryDB($query_7,$db);
@@ -90,14 +92,12 @@
 				}
 			
 			} else {
-
 					// user not logged in
 					if (isset($_SESSION['cartid'])) {
-	
 					// if we have a shopping cart for a guest
 						$cartid = $_SESSION['cartid'];
 					} else {
-		
+						echo "Welcome GUEST! ";
 						$query_5 = "INSERT INTO carts(status) VALUES ('cart');";
 						$result_5 = queryDB($query_5,$db);
 						$query_8 = "SELECT max(id) as NEW from carts;";
@@ -112,7 +112,7 @@
 				//$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 				$result_6 = queryDB($query_6,$db);
 			
-				echo "Successfully added to cart!";
+				echo "Your items has been successfully added to cart!";
 
 				unset($amount, $productsid);
 		}

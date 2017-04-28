@@ -2,7 +2,8 @@
 <html>
 
     <head>
-        <title>Customer Signup Page</title>
+<!-- Bootstrap links -->
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -18,8 +19,13 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
+	
     <style>		
 .center {
     margin: auto;
@@ -28,6 +34,33 @@
     padding: 10px;
     }
     </style>
+	
+    <!-- Menu bar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class = "navbar-header">
+            <a class="navbar-brand" href = "store_one_homepage.php" ><strong>FastShop</strong></a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li><a href="store_one_shopping.php">My Order</a></li>
+                <li><a href="logout.php">Log out</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href ="CLogin.php">Customer Login</a></li>
+                        <li><a href ="GLogin.php">Manager Login</a></li>
+                        <li><a href="logout.php">Log Out</a></li>
+                        <li class="active"><a href = "Csignup.php">Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    
     
 <?php
 
@@ -119,32 +152,6 @@
     </div>
 </div>
 
-    <!-- Menu bar -->
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="store_one_homepage.php">Home</a></li>
-                <li><a href="store_one_shopping.php">My Cart</a></li>
-                <li><a href="store_one_shopping.php">My Order</a></li>
-                <li><a href="logout.php">Log out</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                        <li class = "active"><a href = "Csignup.php">SignUp</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">

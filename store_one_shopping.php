@@ -28,7 +28,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "store_one_page.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="store_one_homepage.php">Home</a></li>
@@ -39,9 +39,9 @@
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
+                        <li><a href = "CLogin.php">Customer Login</a></li>
+                        <li><a href = "GLogin.php">Manager Login</a></li>
+                        <li><a href = "logout.php">Log Out</a></li>
                         <li><a href = "Csignup.php">SignUp</a></li>
                     </ul>
                 </li>
@@ -71,12 +71,16 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT name, amount, prices, status FROM orders WHERE orders.orderid = 1;';
+    $query = "SELECT cartid, status FROM carts WHERE userid = '". $_SESSION['userid'] ."';";
 
     // run the query
     $result = queryDB($query, $db);
+	
+	$query_1 = "SELECT * FROM productorder WHERE cartid = ";
+	
+	$result_1 = queryDB($query_1, $db);
     
-    while($row = nextTuple($result)) {
+    while($row = nextTuple($result_1)) {
         echo "\n <tr>";
         echo "<td>" . $row['name'] . "</td>";
         echo "<td>" . $row['amount']. "</td>";
