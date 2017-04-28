@@ -53,11 +53,32 @@
             </ul>
         </div>
     </nav>
-        
+	
+<?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+	
+	if(isset($_SESSION['email'])) {
+		echo "Current user: ". $_SESSION['email'] ."";
+		$query_10 = "SELECT id as USER from users WHERE email = '". $_SESSION['email'] ."';";
+		$result_10 = queryDB($query_10,$db);
+		$row_2 = nextTuple($result_10);
+		$lastuserid = $row_2['USER'];
+		$_SESSION['userid'] = $lastuserid;
+	 	$userid = $_SESSION['userid'];
+	}
+	
+?>
+
 <!-- Title -->
 <div class="row">
     <div class="col-xs-6">
-        <h1>Welcome to fast shop!</h1>        
+        <h1>Welcome to fast shop!</h1>
     </div>
 </div>
 
@@ -70,19 +91,15 @@
 	if (isset($_POST['submit'])) {
 		$amount = $_POST['amount'];
 		$productsid = $_POST['id'];
-		
-		session_start();
 
 			if(isset($_SESSION['email'])) {
-				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['cartid'] ." and status='cart';";
+				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
 				$result_3 = queryDB($query_3,$db);
 				if (nTuples($result_3) > 0) {
-					echo "Welcome user: ". $_SESSION['email'] .". ";
 					$row = nextTuple($result_3);
 					$cartid = $row['id'];
 				} else {
-					echo "Welcome user: ". $_SESSION['email'] .". ";
-					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['cartid'] .", 'cart');";
+					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['userid'] .", 'cart');";
 					$result_4 = queryDB($query_4,$db);
 					$query_7 = "SELECT max(id) as NEW from carts;";
 					$result_7 = queryDB($query_7,$db);
@@ -112,13 +129,30 @@
 				//$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 				$result_6 = queryDB($query_6,$db);
 			
-				echo "Your items has been successfully added to cart!";
+				$success = "Your items has been successfully added to cart!";
 
 				unset($amount, $productsid);
 		}
 	
 ?>
 
+<div class="row">
+    <div class="col-xs-12">
+<?php
+    if (isset($success)) {
+        // for successes after the form was submitted
+        echo '<div class="alert alert-success" role="alert">';
+        echo ($success);
+        echo '</div>';
+    } elseif (isset($_GET['successmessage'])) {
+        // for successes from another form that redirects users to this page
+        echo '<div class="alert alert-success" role="alert">';
+        echo ($_GET['successmessage']);
+        echo '</div>';        
+    }
+?>            
+    </div>
+</div>
 
 <div class="row">
     <div class="col-xs-3">

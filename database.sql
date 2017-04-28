@@ -91,8 +91,8 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
 INSERT INTO carts(userid, status) VALUES (1, "cart");
-INSERT INTO carts(userid, status) VALUES (1, "cart");
-INSERT INTO carts(userid, status) VALUES (2, "shipped");
+INSERT INTO carts(userid, status) VALUES (2, "cart");
+INSERT INTO carts(userid, status) VALUES (3, "cart");
 
 INSERT INTO productorder(cartid, productsid, amount) VALUES (1, 2, 1);
 INSERT INTO productorder(cartid, productsid, amount) VALUES (2, 3, 3);
