@@ -126,7 +126,7 @@
 	    <div class="container login">
 			<form action="CLogin.php" method="post" class="form-signin" id = "login_form" >
                 <h2 class="form-signin-heading">Customer Login</h2>
-                <input type="text" name="username" size="20" placeholder="Username">
+                <input type="text" name="username" size="20" placeholder="Email">
                 <input type="password" name="password" size="20" placeholder="Password"></br>
                 <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
                 <a href="signup.php">Sign Up</a>

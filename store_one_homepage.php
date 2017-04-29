@@ -64,14 +64,15 @@
 	session_start();
 	
 	if(isset($_SESSION['email'])) {
-		echo "Current user: ". $_SESSION['email'] ."";
-		$query_10 = "SELECT id as USER from users WHERE email = '". $_SESSION['email'] ."';";
-		$result_10 = queryDB($query_10,$db);
-		$row_2 = nextTuple($result_10);
-		$lastuserid = $row_2['USER'];
-		$_SESSION['userid'] = $lastuserid;
-	 	$userid = $_SESSION['userid'];
-	}
+		echo "Current account: ". $_SESSION['email'] ."";
+		$query = "SELECT id as userid FROM users WHERE email = '". $_SESSION['email'] ."';";
+		$result = queryDB($query,$db);
+		$row = nextTuple($result);
+		$_SESSION['userid'] = $row['userid'];
+		$userid = $_SESSION['userid'];
+	} else {
+		echo "Welcome GUEST! ";
+	};
 	
 ?>
 
@@ -97,7 +98,8 @@
 				$result_3 = queryDB($query_3,$db);
 				if (nTuples($result_3) > 0) {
 					$row = nextTuple($result_3);
-					$cartid = $row['id'];
+					$_SESSION['cartid'] = $row['id'];
+					$cartid = $_SESSION['cartid'];
 				} else {
 					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['userid'] .", 'cart');";
 					$result_4 = queryDB($query_4,$db);
@@ -106,6 +108,8 @@
 					$row = nextTuple($result_7);
 					$lastid = $row['NEW'];
 					$cartid = $lastid;
+					$_SESSION['cartid'] = $cartid;
+					$cartid = $_SESSION['cartid'];
 				}
 			
 			} else {
@@ -113,8 +117,8 @@
 					if (isset($_SESSION['cartid'])) {
 					// if we have a shopping cart for a guest
 						$cartid = $_SESSION['cartid'];
+						$userid = $_SESSION['userid'];
 					} else {
-						echo "Welcome GUEST! ";
 						$query_5 = "INSERT INTO carts(status) VALUES ('cart');";
 						$result_5 = queryDB($query_5,$db);
 						$query_8 = "SELECT max(id) as NEW from carts;";
@@ -123,6 +127,12 @@
 						$lastid = $row['NEW'];
 						$_SESSION['cartid'] = $lastid;
 					 	$cartid = $_SESSION['cartid'];
+						$query_9 = "SELECT max(userid) as USER from carts;";
+						$result_9 = queryDB($query_9,$db);
+						$row = nextTuple($result_9);
+						$lastuserid = $row['USER'];
+						$_SESSION['userid'] = $lastuserid;
+					 	$userid = $_SESSION['userid'];
 					}	
 				}
 				$query_6 = "INSERT INTO productorder(cartid, productsid, amount) VALUES ($cartid, $productsid, $amount);";

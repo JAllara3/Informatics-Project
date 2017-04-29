@@ -132,7 +132,7 @@
 <?php
     if (isset($isComplete) && $isComplete) {
         echo '<div class="alert alert-success" role="alert">';
-        echo ("success in entering " ."$email");
+        echo ("WELCOME JOINING!!! User: " ."$username");
         unset($username, $email, $password, $cpassword);
         echo '</div>';
     }

@@ -23,7 +23,7 @@
     </head>
         <title>fast shop</title>
     
-    <body>
+    <body background="1.png">
 
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -42,12 +42,32 @@
                         <li><a href = "CLogin.php">Customer Login</a></li>
                         <li><a href = "GLogin.php">Manager Login</a></li>
                         <li><a href = "logout.php">Log Out</a></li>
-                        <li><a href = "Csignup.php">SignUp</a></li>
+                        <li><a href = "Csignup.php">Sign Up</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
+	
+<?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+	
+	if(isset($_SESSION['email'])) {
+		echo "Current account: ". $_SESSION['email'] ."";
+		$query = "SELECT id as userid FROM users WHERE email = '". $_SESSION['email'] ."';";
+		$result = queryDB($query,$db);
+		$row = nextTuple($result);
+		$_SESSION['userid'] = $row['userid'];
+		$userid = $_SESSION['userid'];
+		$cartid = $_SESSION['cartid'];
+	}
+?>
 
 <div class="row">
     <div class="col-xs-12">
@@ -58,8 +78,9 @@
     <thead>
         <th>Product</th>
         <th>Amount</th>
-        <th>Total Price</th>
+        <th>Price</th>
         <th>Status</th>
+		<th>Delete</th>
     </thead>
 
 <?php
@@ -69,26 +90,55 @@
 
     // connect to the database
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-    
-    // set up a query to get information on the carss from the database
-    $query = "SELECT cartid, status FROM carts WHERE userid = '". $_SESSION['userid'] ."';";
-
-    // run the query
-    $result = queryDB($query, $db);
 	
-	$query_1 = "SELECT * FROM productorder WHERE cartid = ";
-	
-	$result_1 = queryDB($query_1, $db);
-    
-    while($row = nextTuple($result_1)) {
-        echo "\n <tr>";
-        echo "<td>" . $row['name'] . "</td>";
-        echo "<td>" . $row['amount']. "</td>";
-        echo "<td>" . $row['prices']. "</td>";
-        echo "<td>" . $row['status']. "</td>";
-        echo "</tr> \n";
-	}
+	if(isset($_SESSION['email'])) {
+		$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
+		$result_3 = queryDB($query_3,$db);
+		if (nTuples($result_3) > 0) {
+			$row = nextTuple($result_3);
+			$query_1 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid FROM products, productorder, carts WHERE productorder.cartid = carts.id AND carts.userid = ". $_SESSION['userid'] ." AND productorder.productsid = products.id;";
+			$result_1 = queryDB($query_1, $db);
+		    while($row = nextTuple($result_1)) {
+				$_SESSION['Pid'] = $row['Pid'];
+				$Pid = $_SESSION['Pid'];
+		        echo "\n <tr>";
+		        echo "<td>" . $row['name'] . "</td>";
+		        echo "<td>" . $row['amount']. "</td>";
+		        echo "<td>" . $row['prices']. "</td>";
+		        echo "<td>" . $row['status']. "</td>";
+				echo "<td><a href='deleteCartItem.php?id=$Pid'>Delete</a></td>";
+				echo "<td>";
+		        echo "</tr> \n";
+			}
+		} else {
+			echo "User: ". $_SESSION['email'] .". Your Shopping Cart is empty! Add some items first! ";
+		}
+	} else {
+			// user not logged in
+			if (!isset($_SESSION['cartid'])) {
+				echo "Dear Guest! Your Shopping Cart is empty! ";
+				// if we have a shopping cart for a guest
+			} else {
+				$cartid = $_SESSION['cartid'];
+				echo "Dear Guest! View your shopping cart here! ";
+				$query_4 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid FROM products, productorder, carts WHERE productorder.cartid =". $_SESSION['cartid'] ." AND productorder.productsid = products.id;";
+				$result_4 = queryDB($query_4, $db);
+				while($row = nextTuple($result_4)) {
+					$_SESSION['Pid'] = $row['Pid'];
+					$Pid = $_SESSION['Pid'];
+				    echo "\n <tr>";
+				    echo "<td>" . $row['name'] . "</td>";
+				    echo "<td>" . $row['amount']. "</td>";
+				    echo "<td>" . $row['prices']. "</td>";
+				    echo "<td>" . $row['status']. "</td>";
+					echo "<td><a href='deleteCartItem.php?id=$Pid'>Delete</a></td>";
+					echo "<td>";
+				    echo "</tr> \n";
+				}
+			}	
+		}
 ?>
+
 
 </table>
     </div>
