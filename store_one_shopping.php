@@ -33,8 +33,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="store_one_homepage.php">Home</a></li>
                 <li class="active"><a href="store_one_shopping.php">My Cart</a></li>
-                <li><a href="store_one_shopping.php">My Order</a></li>
-                <li><a href="logout.php">Log out</a></li>
+                <li><a href="pay.php">My Order</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
