@@ -81,6 +81,7 @@
         <th>Price</th>
         <th>Status</th>
 		<th>Delete</th>
+		<th>Update</th>
     </thead>
 
 <?php
@@ -96,17 +97,24 @@
 		$result_3 = queryDB($query_3,$db);
 		if (nTuples($result_3) > 0) {
 			$row = nextTuple($result_3);
-			$query_1 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid FROM products, productorder, carts WHERE productorder.cartid = carts.id AND carts.userid = ". $_SESSION['userid'] ." AND productorder.productsid = products.id;";
+			$query_1 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid, productorder.productsid as Cid FROM products, productorder, carts WHERE productorder.cartid = carts.id AND carts.userid = ". $_SESSION['userid'] ." AND productorder.productsid = products.id;";
 			$result_1 = queryDB($query_1, $db);
 		    while($row = nextTuple($result_1)) {
 				$_SESSION['Pid'] = $row['Pid'];
 				$Pid = $_SESSION['Pid'];
+				$_SESSION['Cid'] = $row['Cid'];
+				$Cid = $_SESSION['Cid'];
 		        echo "\n <tr>";
 		        echo "<td>" . $row['name'] . "</td>";
 		        echo "<td>" . $row['amount']. "</td>";
 		        echo "<td>" . $row['prices']. "</td>";
 		        echo "<td>" . $row['status']. "</td>";
-				echo "<td><a href='deleteCartItem.php?id=$Pid'>Delete</a></td>";
+				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
+				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
+				echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
+				echo "<td><form action='store_one_shopping.php?id=$Pid' method='post'>";
+				echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
+				echo "</form></td>";
 				echo "<td>";
 		        echo "</tr> \n";
 			}
@@ -121,17 +129,23 @@
 			} else {
 				$cartid = $_SESSION['cartid'];
 				echo "Dear Guest! View your shopping cart here! ";
-				$query_4 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid FROM products, productorder, carts WHERE productorder.cartid =". $_SESSION['cartid'] ." AND productorder.productsid = products.id;";
+				$query_4 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid, productorder.productsid as Cid FROM products, productorder, carts WHERE productorder.cartid =". $_SESSION['cartid'] ." AND productorder.productsid = products.id;";
 				$result_4 = queryDB($query_4, $db);
 				while($row = nextTuple($result_4)) {
 					$_SESSION['Pid'] = $row['Pid'];
 					$Pid = $_SESSION['Pid'];
+					$_SESSION['Cid'] = $row['Cid'];
+					$Cid = $_SESSION['Cid'];
 				    echo "\n <tr>";
 				    echo "<td>" . $row['name'] . "</td>";
 				    echo "<td>" . $row['amount']. "</td>";
 				    echo "<td>" . $row['prices']. "</td>";
 				    echo "<td>" . $row['status']. "</td>";
-					echo "<td><a href='deleteCartItem.php?id=$Pid'>Delete</a></td>";
+					echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
+					echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
+					echo "<td><form action='store_one_shopping.php?id=$Pid' method='post'>";
+					echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
+					echo "</form></td>";
 					echo "<td>";
 				    echo "</tr> \n";
 				}
