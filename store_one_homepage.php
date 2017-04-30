@@ -76,13 +76,6 @@
 	
 ?>
 
-<!-- Title -->
-<div class="row">
-    <div class="col-xs-6">
-        <h1>Welcome to fast shop!</h1>
-    </div>
-</div>
-
 <?php
 	include_once('dbutils.php');
 	include_once('config.php');
@@ -146,6 +139,7 @@
 	
 ?>
 
+
 <div class="row">
     <div class="col-xs-12">
 <?php
@@ -164,9 +158,11 @@
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-xs-3">
-		<p>Categories:</p>
+		<h2>Categories:</h2>
+
 <?php
 
 	include_once('dbutils.php');
@@ -200,6 +196,102 @@
 ?>
     </div>
 	<div class="col-xs-9">
+		<!-- Title -->
+		<div class="row">
+		    <div class="col-xs-12">
+		        <h1>Welcome to fast shop!</h1>
+		    </div>
+		</div>
+
+<?php
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	if (isset($_POST['searchyes'])) {
+		$search=$_POST['search'];
+		
+		$query_12 = "SELECT * FROM products WHERE name LIKE '$search%';"; 
+		$result_12 = queryDB($query_12,$db);
+		$row = nextTuple($result_12);
+		
+		if ($row > 0) {
+				$numberofrows = nTuples($result_12);
+		
+				if ($numberofrows > 0) {
+					echo "Search results:";
+					for($i=0; $i < $numberofrows; $i++) {
+						if($i == 0){
+						$searchMenu = "\t<div class='row'>\n";
+						$searchMenu .= "\t<div class='col-xs-3'>\n";
+						$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+						$searchMenu .= "\t<br><br>\n";
+						$searchMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result_12] . "'>". $row['name'] ."</p></tr>\n";
+						$searchMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+						$searchMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
+						$searchMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
+							$searchMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+							$searchMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
+							$searchMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+							$searchMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
+						$searchMenu .= "\t</form>\n";
+						$searchMenu .= "\t<br><br>\n";
+						$searchMenu .= "\t</div>\n";
+						echo ($searchMenu);
+						} elseif ($i>2 and $i%3 == 0){
+							$searchMenu = "\t</div>\n";
+							$searchMenu .= "\t<div class='row'>\n";
+							$searchMenu .= "\t<div class='col-xs-3'>\n";
+							$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+							$searchMenu .= "\t<br><br>\n";
+							$searchMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result_12] . "'>". $row['name'] ."</p></tr>\n";
+							$searchMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+							$searchMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
+							$searchMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
+								$searchMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+								$searchMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
+								$searchMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+								$searchMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
+							$searchMenu .= "\t</form>\n";
+							$searchMenu .= "\t<br><br>\n";
+							$searchMenu .= "\t</div>\n";
+							echo ($searchMenu);
+						} else {
+						$searchMenu = "\t<div class='col-xs-3'>\n";
+						$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+						$searchMenu .= "\t<br><br>\n";
+						$searchMenu .= "\t\t\t<tr><p href='store_one_homepage.php?page=" . $row[$result_12] . "'>". $row['name'] ."</p></tr>\n";
+						$searchMenu .= "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+						$searchMenu .= "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
+						$searchMenu .= "\t<form action='store_one_homepage.php' method='post'>\n";
+							$searchMenu .= "\t<label for='amount'>Amount wanted:</label>\n";
+							$searchMenu .= "\t<input type='number' class='form-control' value='1' name='amount'>\n";
+							$searchMenu .= "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+							$searchMenu .= "\t<button type='submit' class='btn btn-default' name='submit'>Add to Cart</button><br>\n";
+						$searchMenu .= "\t</form>\n";
+						$searchMenu .= "\t<br><br>\n";
+						$searchMenu .= "\t</div>\n";
+						echo ($searchMenu);
+						}
+						$searchMenu .= "\t</div>\n";
+					}
+				}
+		} else {
+			echo "Sorry, we currently don't have what you want.";
+			echo "\t<br><br>\n";
+		}
+		unset($search);
+	}
+?>		
+		<div class = "row">
+			<div style="text-align:right">
+				<form action="store_one_homepage.php" method='post'>
+					<input type="search" name="search">
+					<button type='submit' class='btn btn-default' name='searchyes'>Search</button>
+				</form>
+			</div>
+		</div>
 <?php
 
     // set up a query to get information on the carss from the database
@@ -212,6 +304,10 @@
     
     // run the query
     $result = queryDB($query_2, $db);
+	
+	if (isset($_POST['searchyes'])) {
+			echo "See other products in our shop:";
+	}
 	
 	if ($result) {
 		$numberofrows = nTuples($result);
