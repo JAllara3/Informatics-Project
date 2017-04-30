@@ -111,7 +111,7 @@
 				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
 				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
 				echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
-				echo "<td><form action='store_one_shopping.php?id=$Pid' method='post'>";
+				echo "<td><form action='pay.php?id=$Pid' method='post'>";
 				echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
 				echo "</form></td>";
 				echo "<td>";
@@ -142,7 +142,7 @@
 				    echo "<td>" . $row['status']. "</td>";
 					echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
 					echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
-					echo "<td><form action='store_one_shopping.php?id=$Pid' method='post'>";
+					echo "<td><form action='pay.php?id=$Pid' method='post'>";
 					echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
 					echo "</form></td>";
 					echo "<td>";
