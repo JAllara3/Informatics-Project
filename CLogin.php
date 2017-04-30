@@ -129,7 +129,7 @@
                 <input type="text" name="username" size="20" placeholder="Email">
                 <input type="password" name="password" size="20" placeholder="Password"></br>
                 <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
-                <a href="signup.php">Sign Up</a>
+                <a href="Csignup.php">Sign Up</a>
             </form>
         </div>
     </body>
