@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Checkout</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -16,9 +17,14 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-    
+    <body background = "1.png">
     <?php
     $pagetitle = 'Checkout';
     //include_once("header.php");
@@ -28,10 +34,19 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="store_one_homepage.php">Home</a></li>
-        <li><a href="store_one_cart.php">My Cart</a></li>
-        <li><a href="store_one_order.php">My Order</a></li>
-        <li><a href="logout.php">log out</a></li>
+        <li><a href="store_one_homepage.php">Home</a></li>
+        <li><a href="store_one_shopping.php">My Cart</a></li>
+        <li class="active"><a href="pay.php">My Order</a></li>
+         <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href = "CLogin.php">Customer Login</a></li>
+                    <li><a href = "GLogin.php">Manager Login</a></li>
+                    <li><a href = "logout.php">Log Out</a></li>
+                    <li><a href = "Csignup.php">Sign Up</a></li>
+                </ul>
+        </li>
      </ul>
   </div>
 </nav>
@@ -55,6 +70,87 @@
 include_once('config.php');
 include_once('dbutils.php');
 
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+    session_start();
+	
+    if(isset($_SESSION['email'])) {
+	    echo "Current account: ". $_SESSION['email'] ."";
+	    $query = "SELECT id as userid FROM users WHERE email = '". $_SESSION['email'] ."';";
+	    $result = queryDB($query,$db);
+	    $row = nextTuple($result);
+	    $_SESSION['userid'] = $row['userid'];
+	    $userid = $_SESSION['userid'];
+	    $cartid = $_SESSION['cartid'];
+	}
+	
+        
+    /*    
+    if(isset($_SESSION['userid'])) {
+	$query = "SELECT * FROM pay WHERE userid =". $_SESSION['userid']. "';";
+	$result = queryDB($query,$db);
+	if (nTuples($result) > 0) {
+        	$row = nextTuple($result);
+        	$name = $row['name'];
+                $address = $row['address'];
+                $payment = $row['payment'];
+                $deliver = $row['deliver'];   
+
+            if (session_start()) {
+                $_SESSION['userid'] = $userid;
+                header('Location: Thanks.php');
+                exit;
+            }
+        }*/
+    
+    
+      //
+  // Dropdown list generating function returns html/bootstrap dropdown list based on the contents of a specific table and specific variables within that table
+  // specifying values to show users, and values to return
+  //
+  // $db is a handle to the database
+  // $table is the name of the table
+  // $uiVariable is the name of the variable in $table with values the user will see
+  // $indexVariable ist he name of the variable in $table with the values returned by the form
+  // $defaultValue is the default value for the dropdown list
+  //
+  /*
+  function generateDropdown($db, $table, $uiVariable, $indexVariable, $defaultValue="") {
+   
+    // set up a query to get the two variables from the table 
+    $query = "SELECT $uiVariable, $indexVariable FROM $table ORDER BY $uiVariable;";
+    
+    // run the query
+    $result = queryDB($query, $db);
+    
+    // put together html for the checkbox
+    $dropdownHTML = "<select class='form-control' name='$table-$indexVariable'>\n";
+    
+    while($row = nextTuple($result)) {
+      // get the values for the ui and index variables
+      $ui = $row["$uiVariable"];
+      $index = $row["$indexVariable"];
+      
+      // check if the current value should be the default value
+      if ($index == $defaultValue) {
+        $selected = "selected='selected'";
+      } else {
+        $selected = "";
+      }
+
+      // for each record in the table
+      $dropdownHTML .= "<option value='$index' $selected>$ui</option>\n";
+    }
+    
+    // close select tag
+    $dropdownHTML .="</select>";
+    
+    // return the html for the checkboxes
+    return $dropdownHTML;
+    
+  } */
+    
+    
     if (isset($_POST['checkout'])) {
         
         $name = ($_POST['name']);
@@ -64,7 +160,7 @@ include_once('dbutils.php');
     
     
       // get payment id
-    $payment = $_POST['payment-id'];
+    //$payment = $_POST['payment-id'];
     
     // variable to keep track if the form is complete (set to false if there are any issues with data)
     $isComplete = true;
@@ -86,8 +182,8 @@ include_once('dbutils.php');
     if (!isset($payment)) {
         $errorMessage .= "Please enter card information.\n";
         $isComplete = false;
-    } else if (!preg_match("[0-9]{16}", $payment)) {
-        $errorMessage .="Please enter a card number that is 16 digits long.\n";
+    } else if (!preg_match("/^[0-9]{16}$/", $payment)) {
+        $errorMessage .="Please enter a card number that is 16 digits long.";
         $isComplete = false;
     }
     
@@ -106,7 +202,7 @@ include_once('dbutils.php');
          $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // put together SQL statement to insert new record
-        $query = "INSERT INTO payment(name, address, payment, deliver) VALUES ('$name', '$address', $payment, $deliver);";
+        $query = "INSERT INTO payment(name, address, payment, deliver) VALUES ('$name', '$address', $payment, '$deliver');";
     
         
         // run the insert statement
@@ -168,25 +264,25 @@ include_once('dbutils.php');
 <form action="pay.php" method="post">
 <!-- name -->
     <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">Name:</label>
         <input type="text" class="form-control" name="name"/>
     </div>
-
+    
 <!-- address -->
     <div class="form-group">
-        <label for="address">Address</label>
+        <label for="address">Address:</label>
         <input type="text" class="form-control" name="address"/>
     </div>
 
 <!-- payment -->
     <div class="form-group">
-        <label for="payment">Payment</label>
+        <label for="payment">Payment:</label>
         <input type="number" class="form-control" name="payment"/>
     </div>
     
 <!-- deliver -->
     <div class="form-group">
-        <label for="deliver">Deliver</label>
+        <label for="deliver">Deliver:</label>
         <input type="date" class="form-control" name="deliver"/>
     </div>
     
