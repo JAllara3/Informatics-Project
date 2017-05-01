@@ -24,16 +24,43 @@
         
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-    
+
+
+<?php
+	
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+
+    $storeid = $_SESSION['id'];
+	
+    $query = "SELECT * from stores where id=$storeid;";
+	
+    $result = queryDB($query, $db);
+	
+    $row = nextTuple($result);
+	
+    $storename = $row['name'];
+	
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+?>
+
     <body>
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
                 <li><a href="store_one_shopping.php">My Cart</a></li>
                 <li><a href="store_one_shopping.php">My Order</a></li>
                 <li><a href="logout.php">Log out</a></li>
@@ -54,7 +81,7 @@
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
-            <h1 align = center>Welcome to Fast Shop!</h1>
+            <h1 align = center>Welcome to The Union!</h1>
         </div>
     </div>
 
@@ -105,7 +132,7 @@
 				// start a session
 			if (session_start()) {
 					$_SESSION['email'] = $email;
-					header('Location: store_one_homepage.php');
+					header('Location: union.php');
 					exit;
 				} else {
 					// if we can't start a session

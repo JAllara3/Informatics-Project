@@ -57,7 +57,7 @@
             <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
+                <li><a href="store_one_homepage.php?=<?php echo $storeid;?>">Home</a></li>
                 <li class="active"><a href="store_one_shopping.php">My Cart</a></li>
                 <li><a href="store_one_orders.php">My Order</a></li>
                 <li class="dropdown">

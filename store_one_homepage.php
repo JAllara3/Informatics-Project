@@ -34,19 +34,36 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 	
 	session_start();
-
-    $storeid = $_POST['id'];
-	$storeid = $_SESSION['storeid'];
 	
-    $query = "SELECT * from stores where id=$storeid;";
+	if (isset($_POST['id'])){
+		$storeid = $_POST['id'];
 	
-    $result = queryDB($query, $db);
+		$query = "SELECT * from stores where id=$storeid;";
 	
-    $row = nextTuple($result);
+	    $result = queryDB($query, $db);
+		
+	    $row = nextTuple($result);
+		
+	    $storename = $row['name'];
 	
-    $storename = $row['name'];
+		$storebg = $row['bg'];
+		
+		$_SESSION['storeid'] = $storeid;
+		
+		$storeid = $_SESSION['storeid'];
+	} else {
+	    $storeid = $_SESSION['storeid'];
 	
-	$storebg = $row['bg'];
+		$query = "SELECT * from stores where id=$storeid;";
+	
+		$result = queryDB($query, $db);
+	
+		$row = nextTuple($result);
+	
+		$storename = $row['name'];
+	
+		$storebg = $row['bg'];	
+	}
 	
 	$_SESSION['id'] = $storeid;
 	$_SESSION['name'] = $storename;
