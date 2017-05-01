@@ -51,7 +51,7 @@ CREATE TABLE productorder (
 -- Add some sample data
 INSERT INTO stores(name, description, bg) VALUES ("Fast Shop", "You can find tools to build your own modern living style here", "6.png");
 INSERT INTO stores(name, description, bg) VALUES ("Fresh Zone", "Shop for fresh food here", "1.png");
-INSERT INTO stores(name, description, bg) VALUES ("Summer Blast", "Explore Your summer here", "2.gif");
+INSERT INTO stores(name, description, bg) VALUES ("Summer Blast", "Explore Your summer here", "1.gif");
 
 INSERT INTO categories(name, storesid) VALUES ("Sales", 1);
 INSERT INTO categories(name, storesid) VALUES ("Bath & Beauty", 1);
