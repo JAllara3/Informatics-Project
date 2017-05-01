@@ -21,17 +21,44 @@
         
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-        <title>fast shop</title>
+        <title>Edit</title>
     
-    <body background="1.png">
+<?php
+	
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+
+    $storeid = $_SESSION['id'];
+	
+    $query = "SELECT * from stores where id=$storeid;";
+	
+    $result = queryDB($query, $db);
+	
+    $row = nextTuple($result);
+	
+    $storename = $row['name'];
+	
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+?>
+
+	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
+
 
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "store_one_page.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="store_one_homepage.php">Home</a></li>
+                <li><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
                 <li class="active"><a href="store_one_shopping.php">My Cart</a></li>
                 <li><a href="pay.php">My Order</a></li>
                 <li class="dropdown">
@@ -68,25 +95,24 @@
     
     $result = queryDB($query,$db);
     
-    $row = nextTuple($result);
-    
-    if ($row > 0) {
-        echo "\t<div class='row'>\n";
-        echo "\t<div class='col-xs-6'>\n";
-        echo "\t<div class='col-xs-6'>\n";
-        echo "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
-        echo "\t<br><br>\n";
-        echo "\t\t\t<tr><p href='store_one_shopping.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
-        echo "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
-        echo "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
-        echo "\t<form action='edit_cart.php' method='post'>\n";
-        echo "\t<label for='amount'>Please enter a new amount:</label>\n";
-            echo "\t<input type='number' class='form-control' value='1' name='amount'>\n";
-            echo "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
-        	echo "\t<button type='submit' class='btn btn-default' name='update'>Update</button><br>\n";
-        echo "\t</form>\n";
-        echo "\t<br><br>\n";
-        echo "\t</div>\n";
+    while ($row = nextTuple($result)) {
+			echo "\t<div class='row'>\n";
+			echo "\t<div class='col-xs-6'>\n";
+			echo "\t<div class='col-xs-6'>\n";
+			echo "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
+			echo "\t<br><br>\n";
+			echo "\t\t\t<tr><p href='store_one_shopping.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
+			echo "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
+			echo "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
+			echo "\t<form action='edit_cart.php' method='post'>\n";
+			echo "\t<label for='amount'>Please enter a new amount:</label>\n";
+			    echo "\t<input type='number' class='form-control' value='1' name='amount'>\n";
+			    echo "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+				echo "\t<button type='submit' class='btn btn-default' name='update'>Update</button><br>\n";
+			echo "\t</form>\n";
+			echo "\t<br><br>\n";
+			echo "\t</div>\n";
+		}
     }
 
     if (isset($_POST['update'])){

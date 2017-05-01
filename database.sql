@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS productorder;
 CREATE TABLE stores (
     id int unsigned NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
+    description varchar(128),
+    bg varchar(128),
     PRIMARY KEY (id)
 );
 
@@ -41,30 +43,29 @@ CREATE TABLE productorder (
     id int unsigned NOT NULL AUTO_INCREMENT,
     cartid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
-	amount int unsigned NOT NULL,
+    amount int unsigned NOT NULL,
     PRIMARY KEY (id) 
 );
 
 
 -- Add some sample data
-INSERT INTO stores(name) VALUES ("Fast shop 1");
-INSERT INTO stores(name) VALUES ("Fast shop 2");
-INSERT INTO stores(name) VALUES ("Fast shop 3");
+INSERT INTO stores(name, description, bg) VALUES ("Fast Shop", "You can find tools to build your own modern living style here", "6.png");
+INSERT INTO stores(name, description, bg) VALUES ("Fresh Zone", "Shop for fresh food here", "1.png");
+INSERT INTO stores(name, description, bg) VALUES ("Summer Blast", "Explore Your summer here", "1.gif");
 
 INSERT INTO categories(name, storesid) VALUES ("Sales", 1);
 INSERT INTO categories(name, storesid) VALUES ("Bath & Beauty", 1);
 INSERT INTO categories(name, storesid) VALUES ("Book & Media", 1);
-INSERT INTO categories(name, storesid) VALUES ("Clothing", 1);
 INSERT INTO categories(name, storesid) VALUES ("Tools", 1);
-INSERT INTO categories(name, storesid) VALUES ("Fresh food", 1);
-INSERT INTO categories(name, storesid) VALUES ("Vegetables", 1);
 INSERT INTO categories(name, storesid) VALUES ("Sales", 2);
-INSERT INTO categories(name, storesid) VALUES ("Bath", 2);
-INSERT INTO categories(name, storesid) VALUES ("Beauty", 2);
 INSERT INTO categories(name, storesid) VALUES ("Sea food", 2);
-INSERT INTO categories(name, storesid) VALUES ("Veges", 2);
+INSERT INTO categories(name, storesid) VALUES ("Fresh food", 2);
+INSERT INTO categories(name, storesid) VALUES ("Vegetables", 2);
 INSERT INTO categories(name, storesid) VALUES ("New!", 3);
-INSERT INTO categories(name, storesid) VALUES ("Clothes", 3);
+INSERT INTO categories(name, storesid) VALUES ("The Sea", 3);
+INSERT INTO categories(name, storesid) VALUES ("Clothing", 3);
+INSERT INTO categories(name, storesid) VALUES ("Bath", 3);
+INSERT INTO categories(name, storesid) VALUES ("Beauty", 3);
 
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Carrots", 1, 1.5, NULL, 6, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Pencil", 2, 3.5, "2.jpg", 1, 1);
@@ -91,9 +92,5 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
 
 INSERT INTO carts(userid, status) VALUES (1, "cart");
-INSERT INTO carts(userid, status) VALUES (2, "cart");
-INSERT INTO carts(userid, status) VALUES (3, "cart");
 
 INSERT INTO productorder(cartid, productsid, amount) VALUES (1, 2, 1);
-INSERT INTO productorder(cartid, productsid, amount) VALUES (2, 3, 3);
-INSERT INTO productorder(cartid, productsid, amount) VALUES (1, 5, 1);

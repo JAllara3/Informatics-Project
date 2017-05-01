@@ -24,21 +24,48 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
 	
-        <title>fast shop</title>
-    
-    <body background="1.png">
+        <title>The Subunion</title>
+		
+<?php
+	
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+
+    $storeid = $_POST['id'];
+	$storeid = $_SESSION['storeid'];
+	
+    $query = "SELECT * from stores where id=$storeid;";
+	
+    $result = queryDB($query, $db);
+	
+    $row = nextTuple($result);
+	
+    $storename = $row['name'];
+	
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+?>
+
+	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
 
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "store_one_homepage.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="store_one_homepage.php">Home</a></li>
+                <li class="active"><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
                 <li><a href="store_one_shopping.php">My Cart</a></li>
-                <li><a href="pay.php">My Order</a></li>
+                <li><a href="store_one_orders.php">My Order</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
@@ -52,7 +79,7 @@
             </ul>
         </div>
     </nav>
-	
+
 <?php
 
 	include_once('dbutils.php');
@@ -73,7 +100,7 @@
 		echo "Welcome GUEST! ";
 	};
 	
-?>
+?>	
 
 <?php
 	include_once('dbutils.php');
@@ -170,7 +197,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT name, id FROM categories WHERE categories.storesid = 1;';
+    $query = 'SELECT name, id FROM categories WHERE categories.storesid = '. $storeid .';';
     
     // run the query
     $result = queryDB($query, $db);
@@ -299,7 +326,7 @@
 	} else {
 		$categoriesid = 1;
 	}
-    $query_2 = "SELECT id, name, available, prices, icon FROM products WHERE products.storesid = 1 AND products.categoriesid = $categoriesid;";
+    $query_2 = "SELECT id, name, available, prices, icon FROM products WHERE products.storesid = $storeid AND products.categoriesid = $categoriesid;";
     
     // run the query
     $result = queryDB($query_2, $db);

@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,8 +22,8 @@
         
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-        <title>Cart</title>
-
+        <title>Order</title>
+    
 <?php
 	
 	include_once('dbutils.php');
@@ -48,18 +49,18 @@
 	$_SESSION['name'] = $storename;
 	$_SESSION['bg'] = $storebg;
 ?>
-	
+
 	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
 
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
+            <a class="navbar-brand" href = "store_one_page.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
-                <li class="active"><a href="store_one_shopping.php">My Cart</a></li>
-                <li><a href="store_one_orders.php">My Order</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li class="active"><a href="store_one_orders.php">My Order</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
@@ -73,8 +74,7 @@
             </ul>
         </div>
     </nav>
-
-	
+    
 <?php
 
 	include_once('dbutils.php');
@@ -106,8 +106,6 @@
         <th>Amount</th>
         <th>Price</th>
         <th>Status</th>
-		<th>Delete</th>
-		<th>Update</th>
     </thead>
 
 <?php
@@ -119,7 +117,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 	
 	if(isset($_SESSION['email'])) {
-		$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
+		$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='shipped';";
 		$result_3 = queryDB($query_3,$db);
 		if (nTuples($result_3) > 0) {
 			$row = nextTuple($result_3);
@@ -134,26 +132,21 @@
 		        echo "<td>" . $row['name'] . "</td>";
 		        echo "<td>" . $row['amount']. "</td>";
 		        echo "<td>" . $row['prices']. "</td>";
-		        echo "<td>" . $row['status']. "</td>"; 
-				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
-				echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
-				echo "<td><form action='pay.php?id=$Pid' method='post'>";
-				echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
-				echo "</form></td>";
+		        echo "<td>" . $row['status']. "</td>";
 				echo "<td>";
 		        echo "</tr> \n";
 			}
 		} else {
-			echo "User: ". $_SESSION['email'] .". Your Shopping Cart is empty! Add some items first! ";
+			echo "User: ". $_SESSION['email'] .". You haven't place any orders yet! ";
 		}
 	} else {
 			// user not logged in
 			if (!isset($_SESSION['cartid'])) {
-				echo "Dear Guest! Your Shopping Cart is empty! ";
+				echo "Dear Guest! You haven't place any orders yet! ";
 				// if we have a shopping cart for a guest
 			} else {
 				$cartid = $_SESSION['cartid'];
-				echo "Dear Guest! View your shopping cart here! ";
+				echo "Dear Guest! View your orders here! ";
 				$query_4 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid, productorder.productsid as Cid FROM products, productorder, carts WHERE productorder.cartid =". $_SESSION['cartid'] ." AND productorder.productsid = products.id;";
 				$result_4 = queryDB($query_4, $db);
 				while($row = nextTuple($result_4)) {
@@ -166,11 +159,6 @@
 				    echo "<td>" . $row['amount']. "</td>";
 				    echo "<td>" . $row['prices']. "</td>";
 				    echo "<td>" . $row['status']. "</td>";
-					echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
-					echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
-					echo "<td><form action='pay.php?id=$Pid' method='post'>";
-					echo "<td><button type='submit' class='btn btn-default' name='placeorder'>Place Order</button></td>";
-					echo "</form></td>";
 					echo "<td>";
 				    echo "</tr> \n";
 				}
