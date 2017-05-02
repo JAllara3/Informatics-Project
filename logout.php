@@ -8,6 +8,6 @@
     session_destroy();
     
     // redirect user to login page
-    header("Location: CLogin.php");
+    header("Location: union.php");
     exit;
 ?>

@@ -22,6 +22,7 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
         <title>Edit</title>
+		
     
 <?php
 	
@@ -32,7 +33,7 @@
 	
 	session_start();
 
-    $storeid = $_SESSION['id'];
+    $storeid = $_SESSION['storeid'];
 	
     $query = "SELECT * from stores where id=$storeid;";
 	
@@ -48,6 +49,7 @@
 	$_SESSION['name'] = $storename;
 	$_SESSION['bg'] = $storebg;
 ?>
+
 
 	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
 
@@ -74,7 +76,12 @@
             </ul>
         </div>
     </nav>
-    
+    				<!-- Title -->
+		<div class="row">
+		    <div class="col-xs-6" align = 'center'>
+		        <h1>Edit product!</h1>
+		    </div>
+		</div>
 <?php
 
 ?>
@@ -97,13 +104,12 @@
     
     while ($row = nextTuple($result)) {
 			echo "\t<div class='row'>\n";
-			echo "\t<div class='col-xs-6'>\n";
-			echo "\t<div class='col-xs-6'>\n";
+			echo "\t<div class='col-xs-6' align = 'center'>\n";
 			echo "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 			echo "\t<br><br>\n";
-			echo "\t\t\t<tr><p href='store_one_shopping.php?page=" . $row[$result] . "'>". $row['name'] ."</p></tr>\n";
-			echo "\t\t\t<tr><p>available amount: ".$row['available']."</p></tr>\n";
-			echo "\t\t\t<tr><p>price: ".$row['prices']."</p></tr>\n";
+			echo "\t\t\t<tr><p>Product: ". $row['name'] ."</p></tr>\n";
+			echo "\t\t\t<tr><p>Available amount: ".$row['available']."</p></tr>\n";
+			echo "\t\t\t<tr><p>Price: ".$row['prices']."</p></tr>\n";
 			echo "\t<form action='edit_cart.php' method='post'>\n";
 			echo "\t<label for='amount'>Please enter a new amount:</label>\n";
 			    echo "\t<input type='number' class='form-control' value='1' name='amount'>\n";

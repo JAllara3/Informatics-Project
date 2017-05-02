@@ -32,7 +32,7 @@
 	
 	session_start();
 
-    $storeid = $_SESSION['id'];
+    $storeid = $_SESSION['storeid'];
 	
     $query = "SELECT * from stores where id=$storeid;";
 	
@@ -105,7 +105,6 @@
         <th>Product</th>
         <th>Amount</th>
         <th>Price</th>
-        <th>Status</th>
 		<th>Delete</th>
 		<th>Update</th>
     </thead>
@@ -123,6 +122,8 @@
 		$result_3 = queryDB($query_3,$db);
 		if (nTuples($result_3) > 0) {
 			$row = nextTuple($result_3);
+			$_SESSION['cartid'] = $row['id']; 
+			$cartid = $_SESSION['cartid'];
 			$query_1 = "SELECT DISTINCT products.name as name, productorder.amount as amount, products.prices as prices, carts.status as status, productorder.id as Pid, productorder.productsid as Cid FROM products, productorder, carts WHERE productorder.cartid = carts.id AND carts.userid = ". $_SESSION['userid'] ." AND productorder.productsid = products.id;";
 			$result_1 = queryDB($query_1, $db);
 		    while($row = nextTuple($result_1)) {
@@ -134,7 +135,6 @@
 		        echo "<td>" . $row['name'] . "</td>";
 		        echo "<td>" . $row['amount']. "</td>";
 		        echo "<td>" . $row['prices']. "</td>";
-		        echo "<td>" . $row['status']. "</td>"; 
 				echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
 				echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
 				echo "<td><form action='pay.php?id=$Pid' method='post'>";
@@ -165,7 +165,6 @@
 				    echo "<td>" . $row['name'] . "</td>";
 				    echo "<td>" . $row['amount']. "</td>";
 				    echo "<td>" . $row['prices']. "</td>";
-				    echo "<td>" . $row['status']. "</td>";
 					echo "<td><a href='delete_cart_product.php?id=$Pid'>Delete</a></td>";
 					echo "<td><a href='edit_cart.php?id=$Cid'>Edit</a></td>";
 					echo "<td><form action='pay.php?id=$Pid' method='post'>";

@@ -35,28 +35,35 @@
             <div class = "navbar-header">
             <a class="navbar-brand" href = "union.php"><strong>The Union</strong></a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="logout.php">Log Out</a></li>
-                        <li><a href = "Csignup.php">Sign Up</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </nav>
-    
+<?php
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+	
+	if(isset($_SESSION['email'])) {
+		echo "Current account: ". $_SESSION['email'] ."";
+		$query = "SELECT id as userid FROM users WHERE email = '". $_SESSION['email'] ."';";
+		$result = queryDB($query,$db);
+		$row = nextTuple($result);
+		$_SESSION['userid'] = $row['userid'];
+		$userid = $_SESSION['userid'];
+		$cartid = $_SESSION['cartid'];
+	}
+?>
+
     	<div class="row">
 		    <div class="col-xs-12" style="text-align:center">
 		        <h1>Welcome to The Union!</h1>
-                <h3>You can View our store options here!</h3>
+                <h3>You can view our store options here!</h3>
 		    </div>
 		</div>
-
+		
 
 <div class="row">
     <div class="col-xs-12">
@@ -82,13 +89,13 @@
     $result = queryDB($query, $db);
     
     while ($row = nextTuple($result)) {
-            $id = $row['id'];
+            $storeid = $row['id'];
             echo "\n <tr>";
             echo "<td>" . $row['name']. "</td>";
             echo "<td>" . $row['description']. "</td>";
-			echo "<td><form action='store_one_homepage.php?id=$id' method='post'>";
+			echo "<td><form action='store_one_homepage.php?id=$storeid' method='post'>";
 				echo "<td><button type='submit' class='btn btn-default' name='goshopping'>GO</button></td>";
-                echo "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+                echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";
 			echo "</form></td>";
 			echo "<td>";
 		    echo "</tr> \n";

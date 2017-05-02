@@ -35,8 +35,8 @@
 	
 	session_start();
 	
-	if (isset($_POST['id'])){
-		$storeid = $_POST['id'];
+	if (isset($_POST['storeid'])){
+		$storeid = $_POST['storeid'];
 	
 		$query = "SELECT * from stores where id=$storeid;";
 	
@@ -62,7 +62,11 @@
 	
 		$storename = $row['name'];
 	
-		$storebg = $row['bg'];	
+		$storebg = $row['bg'];
+		
+		$_SESSION['storeid'] = $storeid;
+		
+		$storeid = $_SESSION['storeid'];
 	}
 	
 	$_SESSION['id'] = $storeid;
@@ -214,7 +218,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
     // set up a query to get information on the carss from the database
-    $query = 'SELECT name, id FROM categories WHERE categories.storesid = '. $storeid .';';
+    $query = 'SELECT name as catname, id as catid FROM categories WHERE categories.storesid = '. $storeid .';';
     
     // run the query
     $result = queryDB($query, $db);
@@ -228,7 +232,7 @@
 			
 			for($i=0; $i < $numberofrows; $i++) {
 				$row = nextTuple($result);
-				$leftSideMenu .= "\t\t\t<tr><td><a href='store_one_homepage.php?page=" . $row['id'] . "'>". $row['name'] ."</a></td></tr>\n";
+				$leftSideMenu .= "\t\t\t<tr><td><a href='store_one_homepage.php?page=" . $row['catid'] . "'>". $row['catname'] ."</a></td></tr>\n";
 			}
 			$leftSideMenu .= "\t\t</table>\n";
 			$leftSideMenu .= "\t</div>\n";	
@@ -242,8 +246,17 @@
 		<!-- Title -->
 		<div class="row">
 		    <div class="col-xs-12">
-		        <h1>Welcome to fast shop!</h1>
+		        <h1>Welcome to <?php echo $storename;?>!</h1>
 		    </div>
+		</div>
+		
+		<div class = "row">
+			<div style="text-align:right">
+				<form action="store_one_homepage.php" method='post'>
+					<input type="search" name="search">
+					<button type='submit' class='btn btn-default' name='searchyes'>Search</button>
+				</form>
+			</div>
 		</div>
 
 <?php
@@ -255,18 +268,17 @@
 	if (isset($_POST['searchyes'])) {
 		$search=$_POST['search'];
 		
-		$query_12 = "SELECT DISTINCT * FROM products WHERE name LIKE '%$search%' and products.storesid = $storeid;"; 
+		$query_12 = "SELECT DISTINCT * FROM products WHERE name LIKE '%$search%' and products.storesid = $storeid GROUP BY (name);"; 
 		$result_12 = queryDB($query_12,$db);
+		$numberofrows_1 = nTuples($result_12);
 		
-		
-		if ($result_12) {
-			$numberofrows = nTuples($result);
-			echo "Search results:";		
-				if ($numberofrows > 0) {
-					for($i=0; $i < $numberofrows; $i++) {
+				if ($numberofrows_1 > 0) {
+					echo "Search results:";
+					for($i=0; $i < $numberofrows_1; $i++) {
 						if($i == 0){
-							$searchMenu = "\t<div class='row'>\n";
-							$searchMenu .= "\t<div class='col-xs-3'>\n";
+							$row = nextTuple($result_12);
+							$searchMenu .= "\t<div class='row'>\n";
+							$searchMenu .= "\t<div class='col-xs-4'>\n";
 							$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 							$searchMenu .= "\t<br><br>\n";
 							$searchMenu .= "\t\t\t<tr><p>Product: ". $row['name'] ."</p></tr>\n";
@@ -282,9 +294,10 @@
 							$searchMenu .= "\t</div>\n";
 							echo ($searchMenu);
 						} elseif ($i>2 and $i%3 == 0){
+								$row = nextTuple($result_12);
 								$searchMenu = "\t</div>\n";
 								$searchMenu .= "\t<div class='row'>\n";
-								$searchMenu .= "\t<div class='col-xs-3'>\n";
+								$searchMenu .= "\t<div class='col-xs-4'>\n";
 								$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 								$searchMenu .= "\t<br><br>\n";
 								$searchMenu .= "\t\t\t<tr><p>Product: ". $row['name'] ."</p></tr>\n";
@@ -300,7 +313,8 @@
 								$searchMenu .= "\t</div>\n";
 								echo ($searchMenu);
 						} else {
-							$searchMenu = "\t<div class='col-xs-3'>\n";
+							$row = nextTuple($result_12);
+							$searchMenu = "\t<div class='col-xs-4'>\n";
 							$searchMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";
 							$searchMenu .= "\t<br><br>\n";
 							$searchMenu .= "\t\t\t<tr><p>Product: ". $row['name'] ."</p></tr>\n";
@@ -317,30 +331,29 @@
 							echo ($searchMenu);
 						}
 						$searchMenu .= "\t</div>\n";
+					
 					}
+					echo "\t<br><br>\n";
+				} else {
+					echo "Sorry, we currently don't have what you want.";
+					echo "\t<br><br>\n";
 				}
-		} else {
-			echo "Sorry, we currently don't have what you want.";
-			echo "\t<br><br>\n";
+				unset($search);
+				echo "\t<br><br>\n";
 		}
-		unset($search);
-	}
 ?>		
-		<div class = "row">
-			<div style="text-align:right">
-				<form action="store_one_homepage.php" method='post'>
-					<input type="search" name="search">
-					<button type='submit' class='btn btn-default' name='searchyes'>Search</button>
-				</form>
-			</div>
-		</div>
+
 <?php
 
     // set up a query to get information on the carss from the database
 	if (isset($_GET['page'])) {
 		$categoriesid = $_GET['page'];
 	} else {
-		$categoriesid = 1;
+		$query_13 = "SELECT MIN(id) as Front FROM categories WHERE categories.storesid = $storeid";
+		$result_13 = queryDB($query_13, $db);
+		$row = nextTuple($result_13);
+		$front = $row['Front'];
+		$categoriesid = $front;
 	}
     $query_2 = "SELECT id, name, available, prices, icon FROM products WHERE products.storesid = $storeid AND products.categoriesid = $categoriesid;";
     
@@ -348,17 +361,23 @@
     $result = queryDB($query_2, $db);
 	
 	if (isset($_POST['searchyes'])) {
-			echo "See other products in our shop:";
+			echo "\t<div class='row'>\n";
+			echo "\t<div class='col-xs-3'>\n";
+			echo "Also check on our other products below ↓";
+			echo "\t</div>\n";
+			echo "\t</div>\n";
 			unset ($searchyes);
 	}
 	
 	if ($result) {
 		$numberofrows = nTuples($result);
 		
+		echo "\t<br><br>\n";
 		if ($numberofrows > 0) {
 			for($i=0; $i < $numberofrows; $i++) {
 				if($i == 0){
-				$centerMenu = "\t<div class='row'>\n";
+				$centerMenu = "\t<br><br>\n";
+				$centerMenu .= "\t<div class='row'>\n";
 				$centerMenu .= "\t<div class='col-xs-3'>\n";
 				$row = nextTuple($result);
 				$centerMenu .= "\t\t\t<tr><img src='".$row['icon']. "' alt='NO PICTURE' style='width:128px;height:128px;'></tr>\n";

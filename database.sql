@@ -61,17 +61,13 @@ INSERT INTO categories(name, storesid) VALUES ("Gardening Tools", 1);
 INSERT INTO categories(name, storesid) VALUES ("Storage", 1);
 INSERT INTO categories(name, storesid) VALUES ("Weekly Special!", 2);
 INSERT INTO categories(name, storesid) VALUES ("Fruit", 2);
-INSERT INTO categories(name, storesid) VALUES ("Sea food", 2);
+INSERT INTO categories(name, storesid) VALUES ("Seafood", 2);
 INSERT INTO categories(name, storesid) VALUES ("Vegetables", 2);
-INSERT INTO categories(name, storesid) VALUES ("Burgers", 2);
 INSERT INTO categories(name, storesid) VALUES ("Milk Tea", 2);
-INSERT INTO categories(name, storesid) VALUES ("Deserts", 2);
 INSERT INTO categories(name, storesid) VALUES ("New!", 3);
 INSERT INTO categories(name, storesid) VALUES ("The Sea", 3);
-INSERT INTO categories(name, storesid) VALUES ("Bikini", 3);
 INSERT INTO categories(name, storesid) VALUES ("Bath", 3);
 INSERT INTO categories(name, storesid) VALUES ("Beauty", 3);
-INSERT INTO categories(name, storesid) VALUES ("Facial care", 3);
 INSERT INTO categories(name, storesid) VALUES ("Skin care", 3);
 
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Moore Pebble Grey Wing Back Accent Chair", 10, 500, "11.jpg", 1, 1);
@@ -89,22 +85,34 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("0.625 in. H x 4.25 in. W x 9 in. D Oil Rubbed Bronze Under Cabinet Double Wine Bottle Rack", 13, 30, "18.jpg", 6, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Balmain 2-Shelf Metal Kitchen Corner Shelf", 3, 50, "19.jpg", 1, 1);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Balmain 2-Shelf Metal Kitchen Corner Shelf", 3, 50, "19.jpg", 6, 1);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 2);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 1, 350, NULL, 1, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 10, 1, NULL, 3, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 2, 3, NULL, 3, 3);
-INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("", 3, 5, NULL, 1, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Green Asparagus", 7, 3.5, "20.jpg", 10, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Red Seedless Grapes", 10, 4.5, "21.jpg", 8, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Navel Oranges", 2, 3, "22.jpg", 8, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("organicgirl Salad Greens", 3, 5, "23.jpg", 10, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Strawberry Milk Tea", 10, 5, "24.jpg", 11, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Jade Green Milk Tea", 10, 5, "25.jpg", 11, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Lobster Tails", 20, 30, "26.jpg", 9, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Maryland Crabs", 30, 30, "27.jpg", 9, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Green Asparagus", 7, 3.5, "20.jpg", 7, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Navel Oranges", 2, 3, "22.jpg", 7, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Jade Green Milk Tea", 10, 5, "25.jpg", 7, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Lobster Tails", 20, 30, "26.jpg", 7, 2);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Female Hat", 20, 15, "28.jpg", 13, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Male Hat", 10, 15, "29.jpg", 13, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("The Reparative Body Lotion", 23, 89, "30.jpg", 16, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Matcha Toner", 30, 50, "31.jpg", 16, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Outback mate soap", 10, 30, "32.jpg", 14, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Sunrise soap", 10, 20, "33.jpg", 14, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Macadamia Natural Oil Nourishing Leave-in Cream", 5, 30, "34.jpg", 15, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("The Holy-Grail Concealer", 3, 50, "35.jpg", 15, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Male Hat", 10, 15, "29.jpg", 12, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("The Reparative Body Lotion", 23, 89, "30.jpg", 12, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Outback mate soap", 10, 30, "32.jpg", 12, 3);
+INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("The Holy-Grail Concealer", 3, 50, "35.jpg", 12, 3);
+
+
+
+
 
 INSERT INTO carts(userid, status) VALUES (1, "cart");
 

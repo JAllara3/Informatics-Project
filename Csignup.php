@@ -86,7 +86,7 @@
         </div>
     </nav>
     
-    
+	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
     
 <?php
 
@@ -185,14 +185,14 @@
         </div>
     </div>
         <body>
-            <div class="container login">
+            <div class="container login" align="center">
                 <form action="Csignup.php" method="post" class="form-signin" id = "login_form" >
                     <h2 class="form-signin-heading">Customer Signup</h2>
                     <input type="text" name="username" size="20" placeholder="Username"></br></br>
                     <input type="email" name ="email" size="20" placeholder="Email"></br></br>
                     <input type="password" name="password" size="20" placeholder="Password"></br></br>
                     <input type="password" name="cpassword" size="20" placeholder="confirm password"></br></br>
-                    <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
+                    <button type='submit' class='btn btn-default' name='submit'>Submit</button></br></br>
                 </form>
                     <a href="CLogin.php">back to login</a>
             </div>

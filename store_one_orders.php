@@ -33,7 +33,7 @@
 	
 	session_start();
 
-    $storeid = $_SESSION['id'];
+    $storeid = $_SESSION['storeid'];
 	
     $query = "SELECT * from stores where id=$storeid;";
 	
@@ -117,7 +117,7 @@
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 	
 	if(isset($_SESSION['email'])) {
-		$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='shipped';";
+		$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status !='cart';";
 		$result_3 = queryDB($query_3,$db);
 		if (nTuples($result_3) > 0) {
 			$row = nextTuple($result_3);

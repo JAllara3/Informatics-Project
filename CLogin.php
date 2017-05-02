@@ -84,6 +84,9 @@
             <h1 align = center>Welcome to The Union!</h1>
         </div>
     </div>
+	
+	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
+
 
 <?php
 
@@ -150,12 +153,12 @@
 ?>
 	
 	<body>
-	    <div class="container login">
+	    <div class="container login" align="center">
 			<form action="CLogin.php" method="post" class="form-signin" id = "login_form" >
                 <h2 class="form-signin-heading">Customer Login</h2>
-                <input type="text" name="username" size="20" placeholder="Email">
-                <input type="password" name="password" size="20" placeholder="Password"></br>
-                <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
+                <input type="text" name="username" size="20" placeholder="Email"></br></br>
+                <input type="password" name="password" size="20" placeholder="Password"></br></br>
+                <button type='submit' class='btn btn-default' name='submit'>Submit</button></br></br>
                 <a href="Csignup.php">Sign Up</a>
             </form>
         </div>
