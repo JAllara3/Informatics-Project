@@ -34,6 +34,30 @@
     }
     </style>
         
+<?php
+    include_once('dbutils.php');
+    include_once('config.php');
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+    session_start();
+    $storieid = $_SESSION['id'];
+    
+    $query = "SELECT * from stores where id=$storeid;";
+    
+    $result = queryDB($query, $db);
+    
+    $row = nextTuple($result);
+    
+    $storename = $row['name'];
+    
+    $storebg = $row['bg'];
+    
+    $_SESSION['id'] = $storeid;
+    $_SESSION['name'] = $storename;
+    $_SESSION['bg'] = $storebg;
+?>
+
+    <body>
+            
         <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -41,7 +65,7 @@
             <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
+                <li><a href="welcome.php?id=<?php echo $storeid;?>">Home</a></li>
                 <li><a href="Categories.php">Categories</a></li>
                 <li><a href="Products.php">Products</a></li>
                 <li><a href="PlacedOrders.php">Placed Orders</a></li>
@@ -64,23 +88,67 @@
             <h1 align = center>Welcome to Fast Shop!</h1>
         </div>
     </div>
+<?php
+    include_once('dbutils.php');
+    include_once('config.php');
     
+    if(isset($_POST['submit'])){
+        $email = $_POST['username'];
+        $password = $_POST['password'];
+        
+        $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+        
+        $isComplete = true;
+        $errorMessage="";
+        
+        if(!$email){
+            $errorMessage .= " Please enter an email.";
+            $isComplete = false;
+        } else{
+            $email = makeStringSafe($db, $email);
+        }
+        if(!$password){
+            $erroMessage .= " Please enter a password.";
+            $isComplete = false;
+        }
+        if(!$isComplete){
+            punt($errorMessage);
+        }
+        
+        $query = "SELECT hashedpass FROM users WHERE email='".$email."';";
+        $result = queryDB($query,$db);
+        if(nTuples($result) > 0){
+            $row=nextTuple($result);
+            $hashedpass = $row['hashedpass'];
+            
+            if($hashedpass == crypt($password, $hasehdpass)){
+                
+                if(session_start()){
+                    $_SESSION['email'] = $email;
+                    header('Loction: welcome.php');
+                    exit;
+                } else{
+                    punt("unable to start session when logging in.");
+                }
+            } else{
+                punt("Wrong password. <a href='GLogin.php'>Try Again</a>.");
+            }
+        } else {
+            punt("This email is not in our system.<a href='GLogin.php'>Try again</a>.");
+        }
+    }
+?>
     <body>
         <div class="container login">
             <form action="GLogin.php" method="post" class="form-signin" id = "login_form" >
                 
-                <h2 class="form-signin-heading">Grocer Login</h2>
-                <input type="text" name="username" size="20" placeholder="Username">
+                <h2 class="form-signin-heading">Manager Login</h2>
+                <input type="text" name="username" size="20" placeholder="Email">
                 <input type="password" name="password" size="20" placeholder="Password"></br>
-                    <a href="welcome.php" class = "btn btn-primary btn-md">Login</a>
-                <a href="signup.php">Sign Up</a>
+                <button type= 'submit' class = 'btn btn-primary btn-md'>Submit</button><br>
+                <a href="Gsignup.php">Sign Up</a>
             </form>
         </div>
-
-<?php
-
-?>
-
 
     </body>
 </html>

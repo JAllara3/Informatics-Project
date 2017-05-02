@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Customer Signup Page</title>
+        <title>Manager Signup Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -33,7 +33,54 @@
 
 	include_once('dbutils.php');
 	include_once('config.php');
+	
+	$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+	
+	$storeid = $_SESSION['id'];
+	
+	$query = "SELECT * from stores where id=$storeid;";
+	$result = queryDB($query, $db);
+	$row = nextTuple($result);
+	$storename = $row['name'];
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+	?>
+	
+	    <!-- Menu bar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class = "navbar-header">
+            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="welcome.php">Home</a></li>
+                <li><a href="Categories.php">Categories</a></li>
+                <li><a href="Products.php">Products</a></li>
+                <li><a href="PlacedOrders.php">Placed Orders</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href ="CLogin.php">Customer Login</a></li>
+                        <li><a href ="GLogin.php">Manager Login</a></li>
+                        <li><a href="GLogin.php">Log Out</a></li>
+                        <li class = "active"><a href = "Gsignup.php">SignUp</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<?php
 
+	include_once('dbutils.php');
+	include_once('config.php');
+	
+	
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -49,24 +96,24 @@
     $errorMessage = "";
 
     if (!$email) {
-        $errorMessage .= " You haven't enter email!";
+        $errorMessage .= " You haven't entered email!";
         $isComplete = false;
     } else {
         $email = makeStringSafe($db, $email);
     }
     
     if (!$password) {
-        $errorMessage .= " You haven't enter your password!";
+        $errorMessage .= " You haven't entered your password!";
         $isComplete = false;
     }
 	
 	if (!$cpassword) {
-        $errorMessage .= " You haven't enter your password! again.";
+        $errorMessage .= " You haven't entered your password! again.";
         $isComplete = false;
     }
 	
 	if ($password != $cpassword) {
-		$errorMessage .= " Your passwords does not match.";
+		$errorMessage .= " Your passwords do not match.";
 		$isComplete = false;
 	}
 	    
@@ -99,7 +146,7 @@
 <?php
     if (isset($isComplete) && $isComplete) {
         echo '<div class="alert alert-success" role="alert">';
-        echo ("success in entering " ."$email");
+        echo ("Welcome user: " ."$username");
         unset($username, $email, $password, $cpassword);
         echo '</div>';
     }
@@ -119,32 +166,6 @@
     </div>
 </div>
 
-    <!-- Menu bar -->
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
-                <li><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                        <li class = "active"><a href = "Gsignup.php">SignUp</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
@@ -161,7 +182,7 @@
                     <input type="password" name="cpassword" size="20" placeholder="confirm password"></br></br>
                     <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
                 </form>
-                    <a href="CLogin.php">back to login</a>
+                    <a href="GLogin.php">back to login</a>
             </div>
     </body>
 </html>
