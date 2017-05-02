@@ -113,7 +113,7 @@
 			echo "\t<br><br>\n";
 			echo "\t</div>\n";
 		}
-    }
+    
 
     if (isset($_POST['update'])){
         
