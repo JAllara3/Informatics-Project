@@ -4,7 +4,25 @@
     include_once('header.php');
 ?>
 
-    <div class="row">
+<?php
+	include_once('dbutils.php');
+	include_once('config.php');
+	
+	$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+	
+	if(isset($_SESSION['email'])) {
+		echo "Current accoutn: " . $_SESSION['email'] . "";
+		$query = "SELECT id as userid FROM users WHERE email = '".$_SESSION['email'] . "';";
+		$result = queryDB($query, $db);
+		$row = nextTuple($result);
+		$_SESSION['userid'] = $row['userid'];
+		$userid = $_SESSION['userid'];
+		$storeid = $_SESSION['storeid'];
+	}
+?>
+		<div class="row">
 		    <div class="col-xs-12" style="text-align:center">
 		        <h1>Welcome to Fastshop!</h1>
                 <h3>Manage your stores here</h3>
@@ -32,19 +50,19 @@
     
     session_start();
     
-    $query="SELECT * FROM newStores;";
+    $query = "SELECT * FROM newStores;";
     
     $result = queryDB($query, $db);
     
     while ($row = nextTuple($result)) {
-            $id = $row['id'];
+            $newStoresid = $row['id'];
             echo "\n <tr>";
             echo "<td>" . $row['name']. "</td>";
             echo "<td>" . $row['description']. "</td>";
 			echo "<td>" . $row['address'] . "</td>";
-			echo "<td><form action='welcome.php?id=$id' method='post'>";
+			echo "<td><form action='welcome.php?id=$newStoresid' method='post'>";
 				echo "<td><button type='submit' class='btn btn-default' name='newStores'>GO</button></td>";
-                echo "\t<input type='hidden' name='id' value='" . $row['id'] . "'>\n";
+                echo "\t<input type='hidden' name='newStoresid' value='" . $row['id'] . "'>\n";
 			echo "</form></td>";
 			echo "<td>";
 		    echo "</tr> \n";
@@ -55,9 +73,8 @@
     </div>
 </div>
 
+
 <?php
-include_once('config.php');
-include_once('dbutils.php');
 
 if (isset($_POST['submit'])) {
 	
