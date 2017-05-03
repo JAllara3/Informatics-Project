@@ -3,6 +3,7 @@
     $menuActive = 0;
     include_once('header.php');
 ?>
+<title>Welcome to Fast Shop</title>
 
 <div>
     <h3>Manage Your Store Here!</h3>
