@@ -36,15 +36,16 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li <?php if($menuActive == 0) { echo 'class="active"'; } ?>><a href="welcome.php">Home</a></li>
-                <li <?php if($menuActive == 1) { echo 'class="active"'; } ?>><a href="Categories.php">Categories</a></li>
+                <li <?php if($menuActive == 1) { echo 'class="active"'; } ?>><a href="Stores.php">Stores</a></li>
                 <li <?php if($menuActive == 2) { echo 'class="active"'; } ?>><a href="Products.php">Products</a></li>
-                <li <?php if($menuActive == 3) { echo 'class="active"'; } ?>><a href="PlacedOrders.php">Placed Orders</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li <?php if($menuActive == 4) { echo 'class="active"'; } ?>><a href ="CLogin.php">Customer Login</a></li>
                         <li <?php if($menuActive == 5) { echo 'class="active"'; } ?>><a href ="GLogin.php">Manager Login</a></li>
+                        <li <?php if($menuActive == 6) { echo 'class="active"'; } ?>><a href = "Gsignup.php">Manager Signup</a></li>
+                        <li <?php if($menuActive == 7) { echo 'class="active"'; } ?>><a href = "Csignup.php">Customer Signup</a></li>
                         <li ><a href="GLogin.php">Log Out</a></li>
                     </ul>
                 </li>
