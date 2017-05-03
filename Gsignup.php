@@ -28,6 +28,9 @@
     padding: 10px;
     }
     </style>
+	
+	
+	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
     
 <?php
 
@@ -55,7 +58,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php">Home</a></li>
@@ -169,11 +172,10 @@
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
-            <h1 align = center>Welcome to Fast Shop!</h1>
+            <h1 align = center>Welcome to The Union!</h1>
         </div>
     </div>
-        <body>
-            <div class="container login">
+            <div class="container login" align="center">
                 <form action="Gsignup.php" method="post" class="form-signin" id = "login_form" >
                     <h2 class="form-signin-heading">Customer Signup</h2>
                     <input type="text" name="username" size="20" placeholder="Username"></br></br>

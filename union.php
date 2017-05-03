@@ -74,6 +74,7 @@
     <thead>
         <th>Store name</th>
         <th>Key features</th>
+        <th>Address</th>
     </thead>
 
 <?php
@@ -93,6 +94,7 @@
             echo "\n <tr>";
             echo "<td>" . $row['name']. "</td>";
             echo "<td>" . $row['description']. "</td>";
+            echo "<td>" . $row['address']. "</td>";
 			echo "<td><form action='store_one_homepage.php?id=$storeid' method='post'>";
 				echo "<td><button type='submit' class='btn btn-default' name='goshopping'>GO</button></td>";
                 echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";

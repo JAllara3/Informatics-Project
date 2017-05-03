@@ -25,21 +25,16 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     
-        <style>		
-.center {
-    margin: auto;
-    width: 40%;
-    border: 3px solid #DAF7A6;
-    padding: 10px;
-    }
-    </style>
         
 <?php
     include_once('dbutils.php');
     include_once('config.php');
+    
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+    
     session_start();
-    $storieid = $_SESSION['id'];
+    
+    $storeid = $_SESSION['id'];
     
     $query = "SELECT * from stores where id=$storeid;";
     
@@ -56,13 +51,13 @@
     $_SESSION['bg'] = $storebg;
 ?>
 
-    <body>
+	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
             
         <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php?id=<?php echo $storeid;?>">Home</a></li>
@@ -85,7 +80,7 @@
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
-            <h1 align = center>Welcome to Fast Shop!</h1>
+            <h1 align = center>Logging in for managing: <?php echo $storename;?></h1>
         </div>
     </div>
 <?php
@@ -139,13 +134,12 @@
     }
 ?>
     <body>
-        <div class="container login">
-            <form action="GLogin.php" method="post" class="form-signin" id = "login_form" >
-                
+	    <div class="container login" align="center">
+			<form action="GLogin.php" method="post" class="form-signin" id = "login_form" >
                 <h2 class="form-signin-heading">Manager Login</h2>
-                <input type="text" name="username" size="20" placeholder="Email">
-                <input type="password" name="password" size="20" placeholder="Password"></br>
-                <button type= 'submit' class = 'btn btn-primary btn-md'>Submit</button><br>
+                <input type="text" name="username" size="20" placeholder="Email"></br></br>
+                <input type="password" name="password" size="20" placeholder="Password"></br></br>
+                <button type='submit' class='btn btn-default' name='submit'>Submit</button></br></br>
                 <a href="Gsignup.php">Sign Up</a>
             </form>
         </div>

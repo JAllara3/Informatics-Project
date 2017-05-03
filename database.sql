@@ -10,6 +10,7 @@ CREATE TABLE stores (
     name varchar(128) NOT NULL,
     description varchar(128),
     bg varchar(128),
+    address varchar(256),
     PRIMARY KEY (id)
 );
 
@@ -49,9 +50,9 @@ CREATE TABLE productorder (
 
 
 -- Add some sample data
-INSERT INTO stores(name, description, bg) VALUES ("Fast Shop", "You can find tools to build your own modern living style here", "6.png");
-INSERT INTO stores(name, description, bg) VALUES ("Fresh Zone", "Shop for fresh food here", "1.png");
-INSERT INTO stores(name, description, bg) VALUES ("Summer Blast", "Explore Your summer here", "1.gif");
+INSERT INTO stores(name, description, bg, address) VALUES ("Fast Shop", "You can find tools to build your own modern living style here", "6.png","street 1");
+INSERT INTO stores(name, description, bg, address) VALUES ("Fresh Zone", "Shop for fresh food here", "1.png", "street 2");
+INSERT INTO stores(name, description, bg, address) VALUES ("Summer Blast", "Explore Your summer here", "1.gif", "street 3");
 
 INSERT INTO categories(name, storesid) VALUES ("Sales", 1);
 INSERT INTO categories(name, storesid) VALUES ("Living Room", 1);
