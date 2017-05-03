@@ -5,8 +5,10 @@
 ?>
 <title>Welcome to Fast Shop</title>
 
+<body background = "fBG.jpg">
+
 <div>
-    <h3>Manage Your Store Here!</h3>
+    <h3 align="center">Manage Your Store Here!</h3>
 </div>
     
     <!--Unique Body Content-->
