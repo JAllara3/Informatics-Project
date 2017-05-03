@@ -201,12 +201,17 @@ function makeStringSafe($db, $mystring) {
   // $table is the name of the table
   // $uiVariable is the name of the variable in $table with values the user will see
   // $indexVariable ist he name of the variable in $table with the values returned by the form
+  // $where is the where clause
   // $defaultValue is the default value for the dropdown list
   //
-  function generateDropdown($db, $table, $uiVariable, $indexVariable, $defaultValue="") {
+  function generateDropdown($db, $table, $uiVariable, $indexVariable, $where="", $defaultValue="") {
    
-    // set up a query to get the two variables from the table 
-    $query = "SELECT $uiVariable, $indexVariable FROM $table ORDER BY $uiVariable;";
+    // set up a query to get the two variables from the table
+    if (strlen($where) == 0) {
+      $query = "SELECT $uiVariable, $indexVariable FROM $table ORDER BY $uiVariable;";
+    } else {
+      $query = "SELECT $uiVariable, $indexVariable FROM $table WHERE $where ORDER BY $uiVariable;";
+    }
     
     // run the query
     $result = queryDB($query, $db);

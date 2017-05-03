@@ -84,10 +84,10 @@ include_once('dbutils.php');
 	    $cartid = $_SESSION['cartid'];
 	}
 	
+       
         
-    /*    
     if(isset($_SESSION['userid'])) {
-	$query = "SELECT * FROM pay WHERE userid =". $_SESSION['userid']. "';";
+	$query = "SELECT * FROM payment WHERE userid =". $_SESSION['userid']. ";";
 	$result = queryDB($query,$db);
 	if (nTuples($result) > 0) {
         	$row = nextTuple($result);
@@ -95,60 +95,8 @@ include_once('dbutils.php');
                 $address = $row['address'];
                 $payment = $row['payment'];
                 $deliver = $row['deliver'];   
-
-            if (session_start()) {
-                $_SESSION['userid'] = $userid;
-                header('Location: Thanks.php');
-                exit;
-            }
-        }*/
-    
-    
-      //
-  // Dropdown list generating function returns html/bootstrap dropdown list based on the contents of a specific table and specific variables within that table
-  // specifying values to show users, and values to return
-  //
-  // $db is a handle to the database
-  // $table is the name of the table
-  // $uiVariable is the name of the variable in $table with values the user will see
-  // $indexVariable ist he name of the variable in $table with the values returned by the form
-  // $defaultValue is the default value for the dropdown list
-  //
-  /*
-  function generateDropdown($db, $table, $uiVariable, $indexVariable, $defaultValue="") {
-   
-    // set up a query to get the two variables from the table 
-    $query = "SELECT $uiVariable, $indexVariable FROM $table ORDER BY $uiVariable;";
-    
-    // run the query
-    $result = queryDB($query, $db);
-    
-    // put together html for the checkbox
-    $dropdownHTML = "<select class='form-control' name='$table-$indexVariable'>\n";
-    
-    while($row = nextTuple($result)) {
-      // get the values for the ui and index variables
-      $ui = $row["$uiVariable"];
-      $index = $row["$indexVariable"];
-      
-      // check if the current value should be the default value
-      if ($index == $defaultValue) {
-        $selected = "selected='selected'";
-      } else {
-        $selected = "";
-      }
-
-      // for each record in the table
-      $dropdownHTML .= "<option value='$index' $selected>$ui</option>\n";
+        }
     }
-    
-    // close select tag
-    $dropdownHTML .="</select>";
-    
-    // return the html for the checkboxes
-    return $dropdownHTML;
-    
-  } */
     
     
     if (isset($_POST['checkout'])) {
@@ -210,10 +158,10 @@ include_once('dbutils.php');
         
 
         
-        // get the id for the pizza we just entered
+        // get the id for the payment we just entered
         $paymentid = mysqli_insert_id($db);
         
-        // for each topping, enter a record in the pizzatopping table
+        // for each order, enter a record in the payment table
         foreach ($payment as $paymentid) {
             // set up insert query
             $query = "INSERT INTO payment(paymentid) VALUES ($paymentid);";
@@ -222,7 +170,7 @@ include_once('dbutils.php');
             $result = queryDB($query, $db);
         }
         
-        // we have successfully entered the pizza and its toppings
+        // we have successfully entered the payment
         $success = "Successfully entered payment information: " . $name;
         
         // reset values of variables so the form is cleared
@@ -265,19 +213,35 @@ include_once('dbutils.php');
 <!-- name -->
     <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" name="name"/>
+        <input type="text" class="form-control" name="name" value="<?php if(isset($name)) { echo $name; } ?>"/>
     </div>
     
 <!-- address -->
     <div class="form-group">
         <label for="address">Address:</label>
-        <input type="text" class="form-control" name="address"/>
+        <?php
+            if (isset($_SESSION['userid'])) {
+                // if user logged in
+                echo (generateDropdown($db, "addresses", "addresses", "id", "usersid = " . $_SESSION['userid']));
+            }
+            
+            echo '<input type="number" class="form-control" name="address"/>';
+        ?>
+        <!-- <input type="text" class="form-control" name="address"/> --!>
     </div>
 
 <!-- payment -->
     <div class="form-group">
         <label for="payment">Payment:</label>
-        <input type="number" class="form-control" name="payment"/>
+        <?php
+            if (isset($_SESSION['userid'])) {
+                // if user logged in
+                echo (generateDropdown($db, "cards", "cards", "id", "usersid = " . $_SESSION['userid']));
+            }
+            
+            echo '<input type="number" class="form-control" name="payment"/>';
+        ?>
+        <!-- <input type="number" class="form-control" name="payment"/> -->
     </div>
     
 <!-- deliver -->

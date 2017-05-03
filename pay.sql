@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS payment;
-/*DROP TABLE IF EXISTS addresses;
-DROP TABLE IF EXISTS payments;*/
+DROP TABLE IF EXISTS addresses;
+DROP TABLE IF EXISTS payments;
 
 
 -- TABLE with payment info
@@ -14,19 +14,19 @@ CREATE TABLE payment (
     PRIMARY KEY (id)    
 );
 
-/*CREATE TABLE addresses (
+CREATE TABLE addresses (
     id int unsigned NOT NULL AUTO_INCREMENT,
     addresses varchar(128) NOT NULL,
     usersid int unsigned NOT NULL,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE payments (
+CREATE TABLE cards (
     id int unsigned NOT NULL AUTO_INCREMENT,
-    payments varchar(128) NOT NULL,
+    cards int unsigned NOT NULL,
     usersid int unsigned NOT NULL,
     PRIMARY KEY(id)
-);*/
+);
 
 
 -- Add some sample data
