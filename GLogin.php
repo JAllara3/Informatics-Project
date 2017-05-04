@@ -56,7 +56,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php">Home</a></li>
