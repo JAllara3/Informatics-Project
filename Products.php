@@ -16,7 +16,6 @@
             $name = $_POST['name'];
             $available = $_POST['available'];
             $prices = $_POST['prices'];
-            $icon = $_POST['icon'];
             $categoriesid = $_POST['categoriesid'];
             $storesid = $_POST['storesid'];
             
@@ -37,32 +36,38 @@
                 $errorMessage .= "please specify a price for the product.\n";
                 $isComplete = false;
             }
-            else {
+            if(!isset($categoriesid)) {
+                $errorMessage .= "please match to a created category(id). \n";
+                $isComplete = false;
+            }
+            if(!isset($storesid)) {
+                $errorMessage .= "please match to a created store(id). \n";
+                $isComplete = false;
+            }
+            /*else {
                 
                 //connect to the database
                 $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
                 
-                $query = "SELECT name FROM products WHERE name='$name';";
+                $query = "SELECT * FROM products;";
                 
                 if(nTuples($result) > 0) {
                     $isComplete = false;
                     $errorMessage .= "The product $name is already in the database.\n";
                 }
-            }
+            }*/
             
-        //stop execution and show error.
+        //
         if($isComplete) {
-            $query = "INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ($name, $available, $prices, $icon, $categoriesid, $storesid);";
-            
+            $query = "INSERT INTO products(name, available, prices, categoriesid, storesid) VALUES ('$name', '$available', '$prices', '$categoriesid', '$storesid');";
+            $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
             $result = queryDB($query, $db);
             
             echo ("Created new product: " . $name);
             
-            unset($isComplete, $errorMessage, $name, $available, $prices, $icon, $categoriesid, $storesid);
+            unset($isComplete, $errorMessage, $name, $available, $prices, $categoriesid, $storesid);
+            }
         }
-        
-        }
-
     ?>
 <body background="storepic.jpg">
 <div class ="row">
@@ -99,12 +104,6 @@
         <input type="text" class="form-control" name="prices" value="<?php if($prices) { echo $prices; }?>"/>
     </div>
     
-    <!--ICON-->
-    <div class="form-group">
-        <label for="icon">Icon:</label>
-        <input type="text" class="form-control" name="icon" value="<?php if($icon) { echo $icon; }?>"/>
-    </div>
-    
     <div class="form-group">
         <label for="categoriesid">Categories-ID:</label>
         <input type = "number" class="form-control" name="categoriesid" value="<?php if($categoriesid) { echo $categoriesid; }?>"/>
@@ -131,7 +130,6 @@
         <th>Name</th>
         <th>Available</th>
         <th>Prices</th>
-        <th>Icon</th>
         <th>CategoriesID</th>
         <th>StoresID</th>
     </thead>
@@ -140,7 +138,7 @@
 
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
-    $query = 'SELECT products.name FROM products ORDER BY name;';
+    $query = 'SELECT * FROM products;';
     
     $result = queryDB($query, $db);
     
@@ -149,9 +147,11 @@
         echo "<td>" . $row['name'] . "</td>";
         echo "<td>" . $row['available'] . "</td>";
         echo "<td>" . $row['prices'] . "</td>";
-        echo "<td>" . $row['icon'] . "</td>";
         echo "<td>" . $row['categoriesid'] . "</td>";
         echo "<td>" . $row['storesid'] . "</td>";
+        echo "<td><a href='deleteProduct.php?id=$id'>Delete</a></td>";
+        echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";
+		echo "</form></td>";
         echo "</tr> \n";
     }
 

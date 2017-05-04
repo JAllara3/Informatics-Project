@@ -22,8 +22,15 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         
-        
         <link rel="stylesheet" type="text/css" href="style.css" />
+        
+        <style>
+        body {
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            }
+        </style>
     </head>
     
     <!-- Menu bar -->
@@ -35,7 +42,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li <?php if($menuActive == 0) { echo 'class="active"'; } ?>><a href="welcome.php">Home</a></li>
                 <li <?php if($menuActive == 1) { echo 'class="active"'; } ?>><a href="Stores.php">Stores</a></li>
-                <li <?php if($menuActive == 2) { echo 'class="active"'; } ?>><a href="Products.php">Products</a></li>
+                <li <?php if($menuActive == 2) { echo 'class="active"'; } ?>><a href="Categories.php">Categories</a></li>
+                <li <?php if($menuActive == 3) { echo 'class="active"'; } ?>><a href="Products.php">Products</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>

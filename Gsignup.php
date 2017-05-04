@@ -3,6 +3,7 @@
 
     <head>
         <title>Manager Signup Page</title>
+		<!-- Bootstrap links -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -17,20 +18,14 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-    <style>		
-.center {
-    margin: auto;
-    width: 40%;
-    border: 3px solid #DAF7A6;
-    padding: 10px;
-    }
-    </style>
-	
-	
-	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
     
 <?php
 
@@ -52,32 +47,34 @@
 	$_SESSION['id'] = $storeid;
 	$_SESSION['name'] = $storename;
 	$_SESSION['bg'] = $storebg;
-	?>
+?>
 	
 	    <!-- Menu bar -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class = "navbar-header">
-            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
+            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="welcome.php">Home</a></li>
+                <li><a href="Stores.php">Stores</a></li>
                 <li><a href="Categories.php">Categories</a></li>
                 <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href ="CLogin.php">Customer Login</a></li>
                         <li><a href ="GLogin.php">Manager Login</a></li>
+                        <li><a href = "Gsignup.php">Manager Signup</a></li>
+                        <li><a href = "Csignup.php">Customer Signup</a></li>
                         <li><a href="GLogin.php">Log Out</a></li>
-                        <li class = "active"><a href = "Gsignup.php">SignUp</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
+	<body style = "background:url('40.png'); background-repeat:no-repeat; background-size:100% 200%">
 <?php
 
 	include_once('dbutils.php');
@@ -99,7 +96,7 @@
     $errorMessage = "";
 
     if (!$email) {
-        $errorMessage .= " You haven't entered email!";
+        $errorMessage .= " You haven't entered an email!";
         $isComplete = false;
     } else {
         $email = makeStringSafe($db, $email);
@@ -111,7 +108,7 @@
     }
 	
 	if (!$cpassword) {
-        $errorMessage .= " You haven't entered your password! again.";
+        $errorMessage .= " You haven't entered your password!";
         $isComplete = false;
     }
 	
@@ -143,7 +140,6 @@
 }
 ?>
         
-<!-- Showing successfully entering pizza, if that actually happened -->
 <div class="row">
     <div class="col-xs-12">
 <?php
@@ -172,17 +168,18 @@
     <!-- Title -->
     <div class="row">
         <div class="col-xs-12">
-            <h1 align = center>Welcome to The Union!</h1>
+            <h1 align = center>Welcome to Fast Shop!</h1>
         </div>
     </div>
+        <body>
             <div class="container login" align="center">
                 <form action="Gsignup.php" method="post" class="form-signin" id = "login_form" >
-                    <h2 class="form-signin-heading">Customer Signup</h2>
+                    <h2 class="form-signin-heading">Manager Signup</h2>
                     <input type="text" name="username" size="20" placeholder="Username"></br></br>
                     <input type="email" name ="email" size="20" placeholder="Email"></br></br>
                     <input type="password" name="password" size="20" placeholder="Password"></br></br>
                     <input type="password" name="cpassword" size="20" placeholder="confirm password"></br></br>
-                    <button type='submit' class='btn btn-default' name='submit'>Submit</button><br>
+                    <button type='submit' class='btn btn-default' name='submit'>Submit</button></br></br>
                 </form>
                     <a href="GLogin.php">back to login</a>
             </div>

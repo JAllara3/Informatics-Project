@@ -1,185 +1,144 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Categories</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="style.css" />
-    </head>
-    
-    <body background = "1.png">
-    <!-- Menu bar -->
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
-                <li class="active"><a href="Categories.php">Categories</a></li>
-                <li><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    <!-- Title -->
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>Categories</h1>
-        </div>
-    </div>
-    
-    <?php
+<?php
+    $menuActive = 2;
+	$header1 = "Store Management";
+    include_once('header.php');
+?>
+<title>Edit Categories</title>
+<?php
     include_once('config.php');
     include_once('dbutils.php');
-    
-    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-    
-    if (isset($_POST['submit'])){
-        
-        //get data
-        $name = $_POST['name'];
-        $storeid = $_POST['storeid'];
-        
-        $isComplete = true;
-        
-        $errorMessage = "";
-        
-        
-        if (!isset($name)){
-            $errorMessage .= "please enter a category name. \n";
-            $isComplete = false;
-        }
-        
-        if (!isset($storeid)){
-            $errorMessage .= "please specifiy the storeid for this category\n";
-            $isComplete = false;            
-            }
-        
-        if($isComplete){
-            
-            $query = "INSERT INTO categories(name, storeid) VALUES ('$name', '$storeid');";
-            
-            $result = queryDB($query, $db);
-            
-            $success = "successfully added category: " .$name;
-            
-            $categoriesid = mysqli_insert_id($db);
-            
-            unset($name, $storeid);
-        }
-    }
-    ?>
-    
-    <div class = "row">
-        <div class = "col-xs-12">
-<?php
-    if (isset($success)){
-        echo "<div class = 'alert alert-success' role = 'alert'>";
-        echo ($success);
-        echo "</div>";
-    }
+
+//process inputs from forms
+if (isset($_POST['submit'])) {
+	$name = $_POST['name'];
+	$storesid = $_POST['storesid'];
+	
+	$isComplete = true;
+	
+	$errorMessage = "";
+	
+	//check if each of the required variables is in the table
+	if (!isset($name)) {
+		$errorMessage .= "please give a name to your category.\n";
+		$isComplete = false;
+	}
+	
+	if($isComplete) {
+		$query = "INSERT INTO categories(name, storesid) VALUES ('$name', '$storesid');";
+		$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+		
+		// run the insert statement
+		$result = queryDB($query, $db);
+		
+		$categoriesid = mysqli_insert_id($db);
+		$success = "Succesfully created a new category: " . $name;
+		
+		unset($name, $storesid);
+	}
+}
 
 ?>
-        </div>
-    </div>
-    
-    <!--errors?-->
-    <div class="row">
-        <div class = "col-xs-12">
-            <?php
-            if (isset($isComplete) && !$isComplete){
-                echo "<div class= 'alert alert-danger' role='alert'> ">;
-                echo ($errorMessage);
-                echo "</div>";
-            }
-            ?>
-        </div>
-    </div>
-    
-    <!--form to enter new categories-->
-    <div class= "row">
-        <div class = "col-xs-12">
-            <form action = "Categories.php" method = "post">
-                <!--name-->
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" name="name" value="<?php if($name) {echo $name;}?>">
-                </div>
-                
-                <!--storeid-->
-                <div class="form-gorup">
-                    <label for="storeid">Storeid:</label>
-                    <input type="number" class = "form-control" name="storeid" value="<?php if($storeid) {echo $storeid;}?>">
-                    <?php
-                    if (!isset($db)){
-                        $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-                    }
-                    echo(generateDropdown($db, "name", "storeid" $storeid));
-                    ?>
-                </div>
-                
-                <button type = "submit" class="btn btn-inverse" name="submit">Create Category</button>
-            </form>
-        </div>
-    </div>
-    
-    <!--Display contents of new category-->
-    
-    <div class="row">
-        <div class="col-xs-12">
-            <!--HTML TABLE-->
-            <table class = "table table-hover">
-                <thead>
-                    <th>Name</th>
-                    <th>Storeid</th>
-                </thead>
-                <?php
-                //connect to db
-                $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-                
-                $query = 'SELECT categories.id, categories.name, FROM categories'
-                
-                $result = queryDB($query, $db);
-                
-                while($row = (nextTuple($result)){
-                    echo "\n <tr>";
-                    echo "<td>" . $row['name'] . "</td>";
-                    echo "<td>" . $row['storeid'] ."</td>";
-                    echo "</tr> \n";
-                }
-                ?>
-                
-            </table>
-        </div>
-    </div>
+<body background="storepic.jpg">
+<div class="row">
+	<div class="col-xs-12" style="text-align:center">
+		<h1>Welcome to fastshop!</h1>
+		<h3>Create Store Categories here</h3>
+	</div>
+</div>
+
+<!--Show successfully creating new category-->
+<div class="row">
+	<div class = "col-xs-12">
+<?php
+	if(isset($success)) {
+		echo '<div class = "alert alert-success" role="alert">';
+		echo ($success);
+		echo '</div>';
+	} elseif (isset($_GET['successmessage'])) {
+		echo '<div class="alert alert-success" role="alert">';
+		echo ($_GET['successmessage']);
+		echo '</div>';
+	}
+?>
+	</div>
+</div>
+
+<!--errors?-->
+<div class="row">
+	<div class = "col-xs-12">
+<?php
+	if (isset($isComplete) && !$isComplete) {
+		echo '<div class="alert alert-danger" role="alert">';
+		echo ($errorMessage);
+		echo '</div>';
+	}
+?>
+	</div>
+</div>
+
+
+<!--form to create new stores-->
+<div class="row">
+	<div class="col-xs-12">
+
+<form action="Categories.php" method="post" enctype="multipart/form-data">
+<!--name-->
+<div class = "form-group">
+	<label for="name">Name:</label>
+	<input type="text" class="form-control" name="name" value ="<?php if($name) { echo $name; } ?>"/>
+</div>
+<!--Description-->
+<div class = "form-group">
+	<label for="storesid">Store ID:</label>
+	<input type="text" class="form-control" name="storesid" value ="<?php if($storesid) { echo $storesid; } ?>"/>
+</div>
+
+<button type = "submit" class= "btn btn-default" name="submit">Create</button>
+	
+</form>
+		
+	</div>
+</div>
+
+<!--Show contents of new store-->
+<div class="row">
+    <div class="col-xs-12">
+        
+<!-- set up html table to show contents -->
+	<table class="table table-hover">
+    <!-- headers for table -->
+	<thead>
+		<th>Category name</th>
+        <th>Store ID</th>
+    </thead>
+	
+<?php
+	$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	$query = 'SELECT * FROM categories;';
+	$result = queryDB($query, $db);
+	
+	while($row = nextTuple($result)) {
+		echo "\n <tr>";
+		echo "<td>" . $row['name'] . "</td>";
+		echo "<td>" . $row['description'] . "</td>";
+		echo "<td><form action='Products.php' method='post'>";
+			echo "<td><button type='submit' class = 'btn btn-default' name=add categories'>Edit Products</button></td>";
+            echo "<td><a href='deleteCategories.php?id=$id'>Delete</a></td>";
+			echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";
+		echo "</form></td>";
+		echo "</tr> \n";
+		
+		//echo "<td><a href = "updateStores.php?id=" . $row['id'] . "'>edit</a></td>";
+		
+		//echo "<td><a href = "deleteStores.php?id=" . $row['id'] . "'>delete</a></td>";
+		
+		echo "</tr> \n";
+	}
+?>
+	</table>
+	</div>
+</div>
+
+
 </body>
 </html>
