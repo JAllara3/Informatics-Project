@@ -6,7 +6,13 @@
     
     session_start();
     
-    $id = $_SESSION['id'];
+    $query_1 = "SELECT max(id) as NEW FROM stores;";
+    
+    $result_1 =queryDB($query_1, $db);
+    
+    $row = nextTuple($result_1);
+    
+    $id = $row['NEW'];
     
     $query="DELETE FROM stores WHERE id = $id;";
     
