@@ -1,69 +1,168 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Products</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="style.css" />
-    </head>
-    
-    <body>
-    <!-- Menu bar -->
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class = "navbar-header">
-            <a class="navbar-brand" href = "welcome.php" ><strong>FastShop</strong></a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="welcome.php">Home</a></li>
-                <li><a href="Categories.php">Categories</a></li>
-                <li class ="active"><a href="Products.php">Products</a></li>
-                <li><a href="PlacedOrders.php">Placed Orders</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href ="CLogin.php">Customer Login</a></li>
-                        <li><a href ="GLogin.php">Manager Login</a></li>
-                        <li><a href="GLogin.php">Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    <body>
-        <?php
+<?php
+    $header1 = "Add products to categories.";
+    $menuActive = 2;
+    include_once('header.php');
+?>
+    <?php
         include_once('config.php');
         include_once('dbutils.php');
         
-        
-        
-        if (isset($_POST['submit'])){
+        if(isset($_POST['submit'])) {
+            //if here, the form was submitted and we need to process form data
+            
+            //get data
             $name = $_POST['name'];
             $available = $_POST['available'];
-            $categoriesid = $_POST['categoryid'];
-            $categoriesname = $_POST['categoryname'];
+            $prices = $_POST['prices'];
+            $icon = $_POST['icon'];
+            $categoriesid = $_POST['categoriesid'];
+            $storesid = $_POST['storesid'];
+            
+            $isComplete = true;
+            
+            $errorMessage = "";
+            
+            //check each required variables in the table
+            if(!isset($name)) {
+                $errorMessage .= "Please enter a name for the product\n";
+                $isComplete = false;
+            }
+            if(!isset($available)){
+                $errorMessage .= "please specify how much available\n";
+                $isComplete = false;
+            }
+            if(!isset($prices)){
+                $errorMessage .= "please specify a price for the product.\n";
+                $isComplete = false;
+            }
+            else {
+                
+                //connect to the database
+                $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+                
+                $query = "SELECT name FROM products WHERE name='$name';";
+                
+                if(nTuples($result) > 0) {
+                    $isComplete = false;
+                    $errorMessage .= "The product $name is already in the database.\n";
+                }
+            }
+            
+        //stop execution and show error.
+        if($isComplete) {
+            $query = "INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ($name, $available, $prices, $icon, $categoriesid, $storesid);";
+            
+            $result = queryDB($query, $db);
+            
+            echo ("Created new product: " . $name);
+            
+            unset($isComplete, $errorMessage, $name, $available, $prices, $icon, $categoriesid, $storesid);
         }
         
-        
-        ?>
+        }
+
+    ?>
+    
+<div class ="row">
+    <div class ="col-xs-12">
+<?php
+    if(isset($isComplete) && !$isComplete) {
+        echo '<div class="alert alert-danger" role="alert">';
+        echo ($errorMessage);
+        echo '</div>';
+    }
+?>
+    </div>
+</div>
+
+<!--form to enter new products-->
+<div class="row">
+    <div class = "col-xs-12">
+<form action="Products.php" method="post">
+    <!--name-->
+    <div class = "form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" name="name" value="<?php if($name) { echo $name; } ?>"/>
+    </div>
+    
+    <!--Available-->
+    <div class = "form-group">
+        <label for="available">Available:</label>
+        <input type="number" class="form-control" name="available" value="<?php if($available) { echo $available; }?>"/>
+    </div>
+    
+    <!--prices-->
+    <div class = "form-group">
+        <label for="prices">Prices:</label>
+        <input type="number" class="form-control" name="prices" value="<?php if($prices) { echo $prices; }?>"/>
+    </div>
+    
+    <!--ICON-->
+    <div class="form-group">
+        <label for="icon">Icon:</label>
+        <input type="text" class="form-control" name="icon" value="<?php if($icon) { echo $icon; }?>"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="categoriesid">Categories-ID:</label>
+        <input type = "number" class="form-control" name="categoriesid" value="<?php if($categoriesid) { echo $categoriesid; }?>"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="storesid">Stores-ID:</label>
+        <input type = "number" class="form-control" name="storesid" value="<?php if($storesid) { echo $storesid; }?>"/>
+    </div>
+    
+    <button type="submit" class="btn btn-default" name="submit">Save Product</button>
+    
+</form>
+
+    </div>
+</div>
+
+<!--Show contents of products table-->
+<div class="row">
+    <div class="col-xs-12">
+
+<table class="table table-hover">
+    <thead>
+        <th>Name</th>
+        <th>Available</th>
+        <th>Prices</th>
+        <th>Icon</th>
+        <th>CategoriesID</th>
+        <th>StoresID</th>
+    </thead>
+    
+<?php
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+    
+    $query = 'SELECT products.name FROM products ORDER BY name;';
+    
+    $result = queryDB($query, $db);
+    
+    while($row= nextTuple($result)) {
+        echo "\n <tr>";
+        echo "<td>" . $row['name'] . "</td>";
+        echo "<td>" . $row['available'] . "</td>";
+        echo "<td>" . $row['prices'] . "</td>";
+        echo "<td>" . $row['icon'] . "</td>";
+        echo "<td>" . $row['categoriesid'] . "</td>";
+        echo "<td>" . $row['storesid'] . "</td>";
+        echo "</tr> \n";
+    }
+
+?>
+    
+</table>
+    </div>
+</div>
+    
     </body>
+    
+    <?php $footer = 'Footer';
+    include_once("footer.php");
+    ?>
+    
+</html>

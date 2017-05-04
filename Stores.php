@@ -5,6 +5,9 @@
     include_once('header.php');
 ?>
 
+<title>Store Management</title>
+
+<body background = "storepic.jpg">
 <?php
 include_once('config.php');
 include_once('dbutils.php');
@@ -41,8 +44,6 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<title>Store Management</title>
-
 <div class="row">
 	<div class="col-xs-12" style="text-align:center">
 		<h1>Welcome to Union!</h1>
@@ -55,7 +56,7 @@ if (isset($_POST['submit'])) {
 	<div class = "col-xs-12">
 <?php
 	if(isset($success)) {
-		echo '<div class ="alert alert-success" role="alert">';
+		echo '<div class = "alert alert-success" role="alert">';
 		echo ($success);
 		echo '</div>';
 	} elseif (isset($_GET['successmessage'])) {
@@ -97,6 +98,11 @@ if (isset($_POST['submit'])) {
 	<label for="description">Description:</label>
 	<input type="text" class="form-control" name="name" value ="<?php if($description) { echo $description; } ?>"/>
 </div>
+<!--bg-->
+<div class="form-group">
+    <label for="bg">BG:</label>
+    <input type="file" class="form-control" name="bg"/>
+</div>
 <!--address-->
 <div class = "form-group">
 	<label for="address">Address:</label>
@@ -115,11 +121,12 @@ if (isset($_POST['submit'])) {
     <div class="col-xs-12">
         
 <!-- set up html table to show contents -->
-<table class="table table-hover">
+	<table class="table table-hover">
     <!-- headers for table -->
-    <thead>
-        <th>Store name</th>
+	<thead>
+		<th>Store name</th>
         <th>Key features</th>
+		<th> BG </th>
 		<th>Location</th>
     </thead>
 	
@@ -132,6 +139,7 @@ if (isset($_POST['submit'])) {
 		echo "\n <tr>";
 		echo "<td>" . $row['name'] . "</td>";
 		echo "<td>" . $row['description'] . "</td>";
+		echo "<td>" . $row['description'] . "</td>";
 		echo "<td>" . $row['address'] . "</td>";
 		
 		//echo "<td><a href = "updateStores.php?id=" . $row['id'] . "'>edit</a></td>";
@@ -141,7 +149,7 @@ if (isset($_POST['submit'])) {
 		echo "</tr> \n";
 	}
 ?>
-</table>
+	</table>
 	</div>
 </div>
 
@@ -151,3 +159,4 @@ if (isset($_POST['submit'])) {
     include_once("footer.php");
     ?>
 </html>
+

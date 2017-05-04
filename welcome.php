@@ -8,7 +8,7 @@
 <body background = "fBG.jpg">
 
 <div>
-    <h3 align="center">Manage Your Store Here!</h3>
+    <h3 align="center"><strong>Manage Your Store Here!</strong></h3>
 </div>
     
     <!--Unique Body Content-->
