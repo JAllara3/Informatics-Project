@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
 		echo "<td>" . $row['name'] . "</td>";
 		echo "<td>" . $row['description'] . "</td>";
 		echo "<td>" . $row['address'] . "</td>";
-		echo "<td><form action='Categories.php?id=$storesid' method='post'>";
+		echo "<td><form action='Categories.php?id=$storeid' method='post'>";
 			echo "<td><button type='submit' class = 'btn btn-default' name=add categories'>Edit Categories</button></td>";
 			echo "<td><a href='deleteStores.php?id=$id'>Delete</a></td>";
 			echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";

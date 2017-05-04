@@ -5,6 +5,7 @@
 ?>
 <title>Edit Products</title>
 
+
     <?php
         include_once('config.php');
         include_once('dbutils.php');
@@ -69,6 +70,52 @@
             }
         }
     ?>
+
+<?php
+	if (isset($_POST['catid'])){
+
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+
+    $storeid = $_SESSION['storeid'];
+
+	$categoriesid = $_SESSION['catid'];
+
+
+	if (isset($_POST['storeid'])){
+		$storeid = $_POST['storeid'];
+
+	}
+    	
+    if (isset($_POST['catid'])){
+		$categoriesid = $_POST['catid'];
+
+	}
+    
+    $query = "SELECT * from stores WHERE id=$storeid;";
+	
+    $result = queryDB($query, $db);
+	
+    $row = nextTuple($result);
+	
+    $storename = $row['name'];
+	
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+    
+    
+    } else {
+        echo "select a store and a categories first!";
+    }
+?>
+
 <body background="storepic.jpg">
 <div class ="row">
     <div class ="col-xs-12">
@@ -111,7 +158,7 @@
     
     <div class="form-group">
         <label for="storesid">Stores-ID:</label>
-        <input type = "number" class="form-control" name="storesid" value="<?php if($storesid) { echo $storesid; }?>"/>
+        <input type = "number" class="form-control" name="storesid" value="<?php if($storeid) { echo $storeid; }?>"/>
     </div>
     
     <button type="submit" class="btn btn-default" name="submit">Save Product</button>
@@ -135,10 +182,12 @@
     </thead>
     
 <?php
+	if (isset($_POST['catid'])){
 
+    
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
     
-    $query = 'SELECT * FROM products;';
+    $query = 'SELECT * FROM products WHERE categoriesid = '. $categoriesid .';';
     
     $result = queryDB($query, $db);
     
@@ -153,6 +202,9 @@
         echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";
 		echo "</form></td>";
         echo "</tr> \n";
+    }
+    } else {
+        echo "YOU HAVEN'T SELECT THE CATEGORY TO EDIT YET!";
     }
 
 ?>
