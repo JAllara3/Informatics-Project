@@ -134,14 +134,14 @@
 		$productsid = $_POST['id'];
 
 			if(isset($_SESSION['email'])) {
-				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] ." and status='cart';";
+				$query_3 = "SELECT * FROM carts WHERE userid =". $_SESSION['userid'] .";";
 				$result_3 = queryDB($query_3,$db);
 				if (nTuples($result_3) > 0) {
 					$row = nextTuple($result_3);
 					$_SESSION['cartid'] = $row['id'];
 					$cartid = $_SESSION['cartid'];
 				} else {
-					$query_4 = "INSERT INTO carts(userid, status) VALUES (". $_SESSION['userid'] .", 'cart');";
+					$query_4 = "INSERT INTO carts(userid) VALUES (". $_SESSION['userid'] .");";
 					$result_4 = queryDB($query_4,$db);
 					$query_7 = "SELECT max(id) as NEW from carts;";
 					$result_7 = queryDB($query_7,$db);
@@ -159,8 +159,6 @@
 						$cartid = $_SESSION['cartid'];
 						$userid = $_SESSION['userid'];
 					} else {
-						$query_5 = "INSERT INTO carts(status) VALUES ('cart');";
-						$result_5 = queryDB($query_5,$db);
 						$query_8 = "SELECT max(id) as NEW from carts;";
 						$result_8 = queryDB($query_8,$db);
 						$row = nextTuple($result_8);
@@ -175,7 +173,7 @@
 					 	$userid = $_SESSION['userid'];
 					}	
 				}
-				$query_6 = "INSERT INTO productorder(cartid, productsid, amount) VALUES ($cartid, $productsid, $amount);";
+				$query_6 = "INSERT INTO productorder(cartid, productsid, amount, status) VALUES ($cartid, $productsid, $amount, 'cart');";
 				//$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 				$result_6 = queryDB($query_6,$db);
 			

@@ -24,7 +24,33 @@
         
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
-    <body background = "1.png">
+<?php
+	
+	include_once('dbutils.php');
+	include_once('config.php');
+
+    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+	
+	session_start();
+
+    $storeid = $_SESSION['storeid'];
+	
+    $query = "SELECT * from stores where id=$storeid;";
+	
+    $result = queryDB($query, $db);
+	
+    $row = nextTuple($result);
+	
+    $storename = $row['name'];
+	
+	$storebg = $row['bg'];
+	
+	$_SESSION['id'] = $storeid;
+	$_SESSION['name'] = $storename;
+	$_SESSION['bg'] = $storebg;
+?>
+	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
+
     <?php
     $pagetitle = 'Checkout';
     //include_once("header.php");
@@ -36,7 +62,7 @@
     <ul class="nav navbar-nav navbar-right">
         <li><a href="store_one_homepage.php">Home</a></li>
         <li><a href="store_one_shopping.php">My Cart</a></li>
-        <li class="active"><a href="pay.php">My Order</a></li>
+        <li class="active"><a href="store_one_orders.php">My Order</a></li>
          <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">User Options
                 <span class="caret"></span></a>
@@ -87,7 +113,7 @@ include_once('dbutils.php');
        
         
     if(isset($_SESSION['userid'])) {
-	$query = "SELECT * FROM payment WHERE userid =". $_SESSION['userid']. ";";
+	$query = "SELECT * FROM payment WHERE usersid =". $_SESSION['userid']. ";";
 	$result = queryDB($query,$db);
 	if (nTuples($result) > 0) {
         	$row = nextTuple($result);
@@ -118,12 +144,12 @@ include_once('dbutils.php');
     
     // check each of the required variables in the table
     if (!isset($name) || strlen($name) == 0) {
-        $errorMessage .= "Please enteryour name.\n";
+        $errorMessage .= " Please enteryour name.\n";
         $isComplete = false;
     }
     
     if (!isset($address) || strlen($address) == 0) {
-        $errorMessage .= "Please enter your address.\n";
+        $errorMessage .= " Please enter your address.\n";
         $isComplete = false;
     }
     
@@ -131,13 +157,13 @@ include_once('dbutils.php');
         $errorMessage .= "Please enter card information.\n";
         $isComplete = false;
     } else if (!preg_match("/^[0-9]{16}$/", $payment)) {
-        $errorMessage .="Please enter a card number that is 16 digits long.";
+        $errorMessage .=" Please enter a card number that is 16 digits long.";
         $isComplete = false;
     }
     
     
     if (!isset($deliver) || strlen($deliver) == 0) {
-        $errorMessage .= "Please enter date of delivery.\n";
+        $errorMessage .= " Please enter date of delivery.\n";
         $isComplete = false;
     }
     
@@ -155,8 +181,7 @@ include_once('dbutils.php');
         
         // run the insert statement
         $result = queryDB($query, $db);
-        
-
+    
         
         // get the id for the payment we just entered
         $paymentid = mysqli_insert_id($db);
@@ -170,6 +195,13 @@ include_once('dbutils.php');
             $result = queryDB($query, $db);
         }
         
+		$cartid = $_SESSION['cartid'];
+		$Cid = $_SESSION['Cid'];
+		
+		$query_1 = "UPDATE productorder SET status='ordered' WHERE productsid = $Cid AND cartid = $cartid;";
+        
+        $result_1 = queryDB($query_1,$db);
+		
         // we have successfully entered the payment
         $success = "Successfully entered payment information: " . $name;
         
@@ -178,14 +210,6 @@ include_once('dbutils.php');
     }
     }
 
-
-    
-    
-  
-    
-    
-    
-    
 ?>
 
         </div>

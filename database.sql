@@ -36,7 +36,6 @@ CREATE TABLE products (
 CREATE TABLE carts (
     id int unsigned NOT NULL AUTO_INCREMENT,
 	userid int unsigned NOT NULL,
-	status varchar(128) NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -45,6 +44,7 @@ CREATE TABLE productorder (
     cartid int unsigned NOT NULL,
     productsid int unsigned NOT NULL,
     amount int unsigned NOT NULL,
+	status varchar(128) NOT NULL,
     PRIMARY KEY (id) 
 );
 
@@ -111,10 +111,4 @@ INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALU
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("Outback mate soap", 10, 30, "32.jpg", 12, 3);
 INSERT INTO products(name, available, prices, icon, categoriesid, storesid) VALUES ("The Holy-Grail Concealer", 3, 50, "35.jpg", 12, 3);
 
-
-
-
-
-INSERT INTO carts(userid, status) VALUES (1, "cart");
-
-INSERT INTO productorder(cartid, productsid, amount) VALUES (1, 2, 1);
+INSERT INTO carts(userid) VALUES (1);
