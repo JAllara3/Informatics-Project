@@ -165,10 +165,11 @@ if (isset($_POST['submit'])) {
 		echo "<td>" . $row['description'] . "</td>";
 		echo "<td><form action='Products.php?id=$categoriesid' method='post'>";
 			echo "<td><button type='submit' class = 'btn btn-default' name=add categories'>Edit Products</button></td>";
-            echo "<td><a href='deleteCategories.php?id=$id'>Delete</a></td>";
 			echo "\t<input type='hidden' name='catid' value='" . $row['id'] . "'>\n";
 			echo "\t<input type='hidden' name='storeid' value='" . $row['storesid'] . "'>\n";
 		echo "</form></td>";
+		echo "<td><a href='deleteCategories.php?id=$id'>Delete</a></td>";
+
 		echo "</tr> \n";
 		
 		//echo "<td><a href = "updateStores.php?id=" . $row['id'] . "'>edit</a></td>";

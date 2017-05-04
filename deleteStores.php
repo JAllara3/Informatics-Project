@@ -6,7 +6,7 @@
     
     session_start();
     
-    $id = $_SESSION['storesid'];
+    $id = $_SESSION['id'];
     
     $query="DELETE FROM stores WHERE id = $id;";
     
