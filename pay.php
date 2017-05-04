@@ -207,6 +207,8 @@ include_once('dbutils.php');
         
         // reset values of variables so the form is cleared
         unset($paymentid, $name, $address, $payment, $deliver);
+		
+		header('Location: store_one_orders.php');
     }
     }
 
