@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS addresses;
-DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS cards;
 
 
 -- TABLE with payment info
 CREATE TABLE payment (
     id int unsigned NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
-    address varchar(128) NOT NULL,
-    payment int unsigned NOT NULL,
+    addressid int unsigned NOT NULL,
+    cardsid int unsigned NOT NULL,
     deliver varchar(50) NOT NULL,
     usersid int unsigned NOT NULL,
     PRIMARY KEY (id)    
@@ -30,7 +30,14 @@ CREATE TABLE cards (
 
 
 -- Add some sample data
-INSERT INTO payment(name, address, payment, deliver) VALUES ('katie', '123 abc', 1234567891234567, '10/12/2017');
---INSERT INTO shape(name) VALUES('rectangular');
+INSERT INTO payment(name, addressid,cardsid, deliver, usersid) VALUES ('katie', 1 , 1, '2017-05-10', 1);
+INSERT INTO payment(name, addressid,cardsid, deliver, usersid) VALUES ('katie', 2 , 2, '2017-05-10', 1);
+INSERT INTO payment(name, addressid,cardsid, deliver, usersid) VALUES ('katie', 3 , 3, '2017-05-10', 1);
 
---INSERT INTO topping(name, vegetarian, vegan, glutenfree, lactosefree) VALUES ('pepperoni', FALSE, FALSE, TRUE, TRUE);
+INSERT INTO addresses(addresses, usersid) VALUES ('123 street', 1);
+INSERT INTO addresses(addresses, usersid) VALUES ('456 street', 1);
+INSERT INTO addresses(addresses, usersid) VALUES ('789 street', 1);
+
+INSERT INTO cards(cards, usersid) VALUES (1234567891234567, 1);
+INSERT INTO cards(cards, usersid) VALUES (1234567891234568, 1);
+INSERT INTO cards(cards, usersid) VALUES (1234567891234569, 1);

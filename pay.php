@@ -1,7 +1,6 @@
+
 <html>
     <head>
-        <title>Checkout</title>
-        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         
@@ -21,9 +20,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
-        
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
+        <title>Order</title>
+    
 <?php
 	
 	include_once('dbutils.php');
@@ -49,33 +49,31 @@
 	$_SESSION['name'] = $storename;
 	$_SESSION['bg'] = $storebg;
 ?>
+
 	<body style = "background:url('<?php echo $storebg;?>'); background-repeat:no-repeat; background-size:100% 100%">
 
-    <?php
-    $pagetitle = 'Checkout';
-    //include_once("header.php");
-    ?>
-
-<!-- Menu bar -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="store_one_homepage.php">Home</a></li>
-        <li><a href="store_one_shopping.php">My Cart</a></li>
-        <li class="active"><a href="store_one_orders.php">My Order</a></li>
-         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown">User Options
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href = "CLogin.php">Customer Login</a></li>
-                    <li><a href = "GLogin.php">Manager Login</a></li>
-                    <li><a href = "logout.php">Log Out</a></li>
-                    <li><a href = "Csignup.php">Sign Up</a></li>
-                </ul>
-        </li>
-     </ul>
-  </div>
-</nav>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class = "navbar-header">
+            <a class="navbar-brand" href = "union.php" ><strong>The Union</strong></a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="store_one_homepage.php?id=<?php echo $storeid;?>">Home</a></li>
+                <li><a href="store_one_shopping.php">My Cart</a></li>
+                <li class="active"><a href="store_one_orders.php">My Order</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">User Options
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href = "CLogin.php">Customer Login</a></li>
+                        <li><a href = "GLogin.php">Manager Login</a></li>
+                        <li><a href = "logout.php">Log Out</a></li>
+                        <li><a href = "Csignup.php">Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
     
     <body>
 
@@ -92,9 +90,9 @@
 <?php
 
 
-// include config and utils files
-include_once('config.php');
-include_once('dbutils.php');
+	// include config and utils files
+	include_once('config.php');
+	include_once('dbutils.php');
 
     $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 	
@@ -108,108 +106,142 @@ include_once('dbutils.php');
 	    $_SESSION['userid'] = $row['userid'];
 	    $userid = $_SESSION['userid'];
 	    $cartid = $_SESSION['cartid'];
+		$query_2 = "SELECT * FROM payment WHERE payment.usersid =". $_SESSION['userid']. ";";
+		$result_2 = queryDB($query_2,$db);
+		if (nTuples($result_2) > 0) {
+				$row = nextTuple($result_2);
+				$name = $row['name'];
+                $addressid = $row['addressid'];
+                $cardsid = $row['cardsid'];
+                $deliver = $row['deliver'];  
+		}
+	} else {
+		$userid = $_SESSION['userid'];
+	    $cartid = $_SESSION['cartid'];
 	}
 	
-       
-        
-    if(isset($_SESSION['userid'])) {
-	$query = "SELECT * FROM payment WHERE usersid =". $_SESSION['userid']. ";";
-	$result = queryDB($query,$db);
-	if (nTuples($result) > 0) {
-        	$row = nextTuple($result);
-        	$name = $row['name'];
-                $address = $row['address'];
-                $payment = $row['payment'];
-                $deliver = $row['deliver'];   
-        }
-    }
-    
-    
+?>
+
+<?php
+	
     if (isset($_POST['checkout'])) {
-        
-        $name = ($_POST['name']);
-        $address = ($_POST['address']);
-        $payment = ($_POST['payment']);
-        $deliver = ($_POST['deliver']);
-    
-    
-      // get payment id
-    //$payment = $_POST['payment-id'];
-    
-    // variable to keep track if the form is complete (set to false if there are any issues with data)
-    $isComplete = true;
-    
-    // error message we'll give user in case there are issues with data
-    $errorMessage = "";
-    
-    // check each of the required variables in the table
-    if (!isset($name) || strlen($name) == 0) {
-        $errorMessage .= " Please enteryour name.\n";
-        $isComplete = false;
-    }
-    
-    if (!isset($address) || strlen($address) == 0) {
-        $errorMessage .= " Please enter your address.\n";
-        $isComplete = false;
-    }
-    
-    if (!isset($payment)) {
-        $errorMessage .= "Please enter card information.\n";
-        $isComplete = false;
-    } else if (!preg_match("/^[0-9]{16}$/", $payment)) {
-        $errorMessage .=" Please enter a card number that is 16 digits long.";
-        $isComplete = false;
-    }
-    
-    
-    if (!isset($deliver) || strlen($deliver) == 0) {
-        $errorMessage .= " Please enter date of delivery.\n";
-        $isComplete = false;
-    }
-    
-    
-    
-        // Stop execution and show error if the form is not complete
-    if($isComplete) {
-        
-     //connect to the database
-         $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
-    
-    // put together SQL statement to insert new record
-        $query = "INSERT INTO payment(name, address, payment, deliver) VALUES ('$name', '$address', $payment, '$deliver');";
-    
-        
-        // run the insert statement
-        $result = queryDB($query, $db);
-    
-        
-        // get the id for the payment we just entered
-        $paymentid = mysqli_insert_id($db);
-        
-        // for each order, enter a record in the payment table
-        foreach ($payment as $paymentid) {
-            // set up insert query
-            $query = "INSERT INTO payment(paymentid) VALUES ($paymentid);";
-            
-            // run insert query
-            $result = queryDB($query, $db);
-        }
-        
-		$cartid = $_SESSION['cartid'];
-		$Cid = $_SESSION['Cid'];
+
+        $name = $_POST['name'];
+		$address = $_POST['address'];
+		$cards = $_POST['cards'];
 		
-		$query_1 = "UPDATE productorder SET status='ordered' WHERE productsid = $Cid AND cartid = $cartid;";
-        
-        $result_1 = queryDB($query_1,$db);
+        $addressid = $_POST['addressid'];
+        $cardsid = $_POST['cardsid'];
+        $deliver = $_POST['deliver'];
 		
-        // we have successfully entered the payment
-        $success = "Successfully entered payment information: " . $name;
-        
-        // reset values of variables so the form is cleared
-        unset($paymentid, $name, $address, $payment, $deliver);
+		echo $addressid;
+		echo $cardsid; 
 		
-		header('Location: store_one_orders.php');
-    }
+		$isComplete = true;
+    
+		$errorMessage = "";
+    
+		// check each of the required variables in the table
+		if (!isset($name) || strlen($name) == 0) {
+		    $errorMessage .= " Please enter your name.\n";
+			// Stop execution and show error if the form is not complete
+		    $isComplete = false;
+		}
+    
+		if (nTuples($result_2) == 0) {
+			if (!isset($address) || strlen($address) == 0) {
+				$errorMessage .= " Please enter your address.\n";
+				$isComplete = false;
+			}
+    
+			if (!isset($cards)) {
+			    $errorMessage .= "Please enter card information.\n";
+			    $isComplete = false;
+			} else if (!preg_match("/^[0-9]{16}$/", $cards)) {
+			    $errorMessage .=" Please enter a card number that is 16 digits long.";
+			    $isComplete = false;
+			}
+		}
+		
+		if (!isset($deliver) || strlen($deliver) == 0) {
+		    $errorMessage .= " Please enter date of delivery.\n";
+		    $isComplete = false;
+		}
+
+		if($isComplete) {
+        
+		//connect to the database
+		    $db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
+			
+			if (nTuples($result_2) == 0) {
+			
+				$query_3 = "INSERT INTO addresses(addresses, usersid) VALUES ('$address', $userid);";
+			
+				$result_3 = queryDB($query_3, $db);
+				
+				$query_5 = "SELECT max(id) as lastaid from addresses;";
+				
+				$result_5 = queryDB($query_5, $db);
+				
+				$row = nextTuple($result_5);
+				
+				$addressid = $row['lastaid'];
+
+				$query_4 = "INSERT INTO cards(cards, usersid) VALUES ($cards, $userid);";
+			
+				$result_4 = queryDB($query_4, $db);
+				
+				$query_6 = "SELECT max(id) as lastcid from cards;";
+				
+				$result_6 = queryDB($query_6, $db);
+				
+				$row = nextTuple($result_6);
+				
+				$cardsid = $row['lastcid'];
+				
+				$query = "INSERT INTO payment(name, addressid, cardsid, deliver, usersid) VALUES ('$name', $addressid, $cardsid, '$deliver', $userid);";
+
+				$result = queryDB($query, $db);
+				
+				$cartid = $_SESSION['cartid'];
+				
+				$Cid = $_SESSION['Cid'];
+		
+				$query_1 = "UPDATE productorder SET status='ordered' WHERE productsid = $Cid AND cartid = $cartid;";
+		    
+				$result_1 = queryDB($query_1,$db);
+			
+				// we have successfully entered the payment
+				$success = "Successfully entered payment information: " . $name;
+        
+				// reset values of variables so the form is cleared
+				unset($address, $cards, $name, $addressid, $cardsid, $deliver, $userid);
+		
+				header('Location: store_one_orders.php');
+
+			} else {
+				$query = "INSERT INTO payment(name, addressid, cardsid, deliver, usersid) VALUES ('$name', $addressid, $cardsid, '$deliver', $userid);";
+
+				$result = queryDB($query, $db);
+				
+				$cartid = $_SESSION['cartid'];
+				
+				$Cid = $_SESSION['Cid'];
+		
+				$query_8 = "UPDATE productorder SET status='ordered' WHERE productsid = $Cid AND cartid = $cartid;";
+		    
+				$result_8 = queryDB($query_8,$db);
+			
+				// we have successfully entered the payment
+				$success = "Successfully entered payment information: " . $name;
+        
+				// reset values of variables so the form is cleared
+				unset($address, $cards, $name, $addressid, $cardsid, $deliver, $userid);
+		
+				header('Location: store_one_orders.php');
+			}
+			
+		}
     }
 
 ?>
@@ -244,28 +276,32 @@ include_once('dbutils.php');
     
 <!-- address -->
     <div class="form-group">
-        <label for="address">Address:</label>
+        <label for="addressid">Address:</label>
         <?php
-            if (isset($_SESSION['userid'])) {
+            if (isset($_SESSION['email']) & isset($addressid)) {
                 // if user logged in
                 echo (generateDropdown($db, "addresses", "addresses", "id", "usersid = " . $_SESSION['userid']));
-            }
-            
-            echo '<input type="number" class="form-control" name="address"/>';
+				echo "<input type='hidden' name='addressid' value='" . $row['id'] . "'>\n";
+            } else {
+				
+	            echo '<input type="text" class="form-control" name="address"/>';
+			}
         ?>
         <!-- <input type="text" class="form-control" name="address"/> --!>
     </div>
 
 <!-- payment -->
     <div class="form-group">
-        <label for="payment">Payment:</label>
+        <label for="cardsid">Payment:</label>
         <?php
-            if (isset($_SESSION['userid'])) {
+            if (isset($_SESSION['email']) & isset($cardsid)) {
                 // if user logged in
                 echo (generateDropdown($db, "cards", "cards", "id", "usersid = " . $_SESSION['userid']));
-            }
-            
-            echo '<input type="number" class="form-control" name="payment"/>';
+				echo "<input type='hidden' name='cardsid' value='" . $row['id'] . "'>\n";
+
+            } else {
+	            echo '<input type="number" class="form-control" name="cards"/>';
+			}
         ?>
         <!-- <input type="number" class="form-control" name="payment"/> -->
     </div>
