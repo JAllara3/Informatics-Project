@@ -1,5 +1,4 @@
 <?php
-    $name = "Add a New Store or Delete a Current one";
     $menuActive = 1;
 	$header1 = "Store Management";
     include_once('header.php');
@@ -7,15 +6,15 @@
 
 <title>Store Management</title>
 
-<body background = "storepic.jpg">
 <?php
-include_once('config.php');
-include_once('dbutils.php');
+	include_once('config.php');
+	include_once('dbutils.php');
 
+	session_start();
+//process inputs from forms
 if (isset($_POST['submit'])) {
 	$name = $_POST['name'];
 	$description = $_POST['description'];
-	$bg = $_POST['bg'];
 	$address = $_POST['address'];
 	
 	$isComplete = true;
@@ -29,7 +28,7 @@ if (isset($_POST['submit'])) {
 	}
 	
 	if($isComplete) {
-		$query = "INSERT INTO stores(name, description, bg, address) VALUES ('$name', '$description', '$bg', '$address');";
+		$query = "INSERT INTO stores(name, description, address) VALUES ('$name', '$description', '$address');";
 		$db = connectDB($DBHost, $DBUser, $DBPasswd, $DBName);
 		
 		// run the insert statement
@@ -38,12 +37,12 @@ if (isset($_POST['submit'])) {
 		$storesid = mysqli_insert_id($db);
 		$success = "Succesfully created a new store: " . $name;
 		
-		unset($name, $description, $bg, $address);
+		unset($name, $description, $address);
 	}
 }
 
 ?>
-
+<body background="storepic.jpg">
 <div class="row">
 	<div class="col-xs-12" style="text-align:center">
 		<h1>Welcome to Union!</h1>
@@ -59,13 +58,12 @@ if (isset($_POST['submit'])) {
 		echo '<div class = "alert alert-success" role="alert">';
 		echo ($success);
 		echo '</div>';
-	} elseif (isset($_GET['successmessage'])) {
+	}/* elseif (isset($_GET['successmessage'])) {
 		echo '<div class="alert alert-success" role="alert">';
 		echo ($_GET['successmessage']);
 		echo '</div>';
-	}
+	}*/
 ?>
-
 	</div>
 </div>
 
@@ -96,12 +94,7 @@ if (isset($_POST['submit'])) {
 <!--Description-->
 <div class = "form-group">
 	<label for="description">Description:</label>
-	<input type="text" class="form-control" name="name" value ="<?php if($description) { echo $description; } ?>"/>
-</div>
-<!--bg-->
-<div class="form-group">
-    <label for="bg">BG:</label>
-    <input type="file" class="form-control" name="bg"/>
+	<input type="text" class="form-control" name="description" value ="<?php if($description) { echo $description; } ?>"/>
 </div>
 <!--address-->
 <div class = "form-group">
@@ -125,8 +118,7 @@ if (isset($_POST['submit'])) {
     <!-- headers for table -->
 	<thead>
 		<th>Store name</th>
-        <th>Key features</th>
-		<th> BG </th>
+        <th>Description </th>
 		<th>Location</th>
     </thead>
 	
@@ -139,8 +131,13 @@ if (isset($_POST['submit'])) {
 		echo "\n <tr>";
 		echo "<td>" . $row['name'] . "</td>";
 		echo "<td>" . $row['description'] . "</td>";
-		echo "<td>" . $row['description'] . "</td>";
 		echo "<td>" . $row['address'] . "</td>";
+		echo "<td><form action='Categories.php?id=$storesid' method='post'>";
+			echo "<td><button type='submit' class = 'btn btn-default' name=add categories'>Edit Categories</button></td>";
+			echo "<td><a href='deleteStores.php?id=$id'>Delete</a></td>";
+			echo "\t<input type='hidden' name='storeid' value='" . $row['id'] . "'>\n";
+		echo "</form></td>";
+		echo "</tr> \n";
 		
 		//echo "<td><a href = "updateStores.php?id=" . $row['id'] . "'>edit</a></td>";
 		
@@ -155,8 +152,5 @@ if (isset($_POST['submit'])) {
 
 
 </body>
-    <?php $footer = 'Footer';
-    include_once("footer.php");
-    ?>
 </html>
 

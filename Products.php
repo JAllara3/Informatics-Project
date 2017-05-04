@@ -1,8 +1,10 @@
 <?php
-    $header1 = "Add products to categories.";
-    $menuActive = 2;
+    $header1 = "Add products to your store.";
+    $menuActive = 3;
     include_once('header.php');
 ?>
+<title>Edit Products</title>
+
     <?php
         include_once('config.php');
         include_once('dbutils.php');
@@ -62,7 +64,7 @@
         }
 
     ?>
-    
+<body background="storepic.jpg">
 <div class ="row">
     <div class ="col-xs-12">
 <?php
@@ -94,7 +96,7 @@
     <!--prices-->
     <div class = "form-group">
         <label for="prices">Prices:</label>
-        <input type="number" class="form-control" name="prices" value="<?php if($prices) { echo $prices; }?>"/>
+        <input type="text" class="form-control" name="prices" value="<?php if($prices) { echo $prices; }?>"/>
     </div>
     
     <!--ICON-->
@@ -160,9 +162,5 @@
 </div>
     
     </body>
-    
-    <?php $footer = 'Footer';
-    include_once("footer.php");
-    ?>
     
 </html>

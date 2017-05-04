@@ -16,10 +16,10 @@
         <a href="Stores.php" class="btn btn-primary btn-lg custom">Edit Stores</a>
     </div>
     <div class="btn-group btn-group-justified">
-        <a href="Products.php" class="btn btn-primary btn-lg">Edit Products</a>
+        <a href="Categories.php" class="btn btn-primary btn-lg">Edit Categories</a>
     </div>
     <div class="btn-group btn-group-justified">
-        <a href="PlacedOrders.php" class="btn btn-primary btn-lg">Placed Orders</a>
+        <a href="Products.php" class="btn btn-primary btn-lg">Edit Products</a>
     </div>
     
     </body>
