@@ -60,6 +60,7 @@
                 <li><a href="Stores.php">Stores</a></li>
                 <li><a href="Categories.php">Categories</a></li>
                 <li><a href="Products.php">Products</a></li>
+				<li><a href="PlacedOrders.php">Placed Orders</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">User Options
                     <span class="caret"></span></a>

@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
 <body background="storepic.jpg">
 <div class="row">
 	<div class="col-xs-12" style="text-align:center">
-		<h1>Welcome to Union!</h1>
+		<h1>Welcome to The Union!</h1>
 		<h3>Manage your stores here</h3>
 	</div>
 </div>
